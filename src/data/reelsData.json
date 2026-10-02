@@ -1,0 +1,133 @@
+{
+  "subjects": ["I", "You", "He", "She", "We", "They", "My friends"],
+  "verbs": [
+    {
+      "id": "1",
+      "verb": "Buy",
+      "object": "a car",
+      "past": "bought",
+      "participle": "bought",
+      "ing": "buying",
+      "third": "buys"
+    },
+    {
+      "id": "2",
+      "verb": "Visit",
+      "object": "their family",
+      "past": "visited",
+      "participle": "visited",
+      "ing": "visiting",
+      "third": "visits"
+    },
+    {
+      "id": "3",
+      "verb": "Break",
+      "object": "the rules",
+      "past": "broke",
+      "participle": "broken",
+      "ing": "breaking",
+      "third": "breaks"
+    },
+    {
+      "id": "4",
+      "verb": "Finish",
+      "object": "the project",
+      "past": "finished",
+      "participle": "finished",
+      "ing": "finishing",
+      "third": "finishes"
+    }
+  ],
+  "sentenceTypes": [
+    { "id": "aff", "label": "[ + ] Affirmative", "type": "affirmative" },
+    { "id": "neg", "label": "[ - ] Negative", "type": "negative" },
+    { "id": "int", "label": "[ ? ] Interrogative", "type": "interrogative" }
+  ],
+  "moments": [
+    {
+      "id": "habit",
+      "label": "Habit or Routine",
+      "tense": "present_simple",
+      "requiredTimeConstraint": null,
+      "suggestAnyOf": [
+        "always",
+        "usually",
+        "often",
+        "sometimes",
+        "never",
+        "every day",
+        "every week",
+        "on mondays",
+        "on fridays"
+      ],
+      "exampleAdverb": "every day",
+      "hint": "Presente simple para hábitos y rutinas. Añade un marcador de frecuencia (every day, usually, sometimes...) para que la idea quede completa."
+    },
+    {
+      "id": "right_now",
+      "label": "Happening Right Now",
+      "tense": "present_continuous",
+      "requiredTimeConstraint": null,
+      "suggestAnyOf": ["now", "right now", "at the moment", "currently", "look", "listen"],
+      "exampleAdverb": "right now",
+      "hint": "Presente continuo: am / is / are + verbo en -ing. Se usa con now, at the moment, Look!, Listen!"
+    },
+    {
+      "id": "past_specific",
+      "label": "Finished Past (Specific time)",
+      "tense": "past_simple",
+      "requiredTimeConstraint": "in January 2026",
+      "exampleAdverb": "",
+      "hint": "Pasado simple para acciones terminadas con un momento concreto. El conector obligatorio es 'in January 2026'."
+    },
+    {
+      "id": "past_time_not_important",
+      "label": "Finished Past (Time NOT important)",
+      "tense": "present_perfect",
+      "requiredTimeConstraint": null,
+      "requiredAnyOf": ["already", "yet", "ever", "never"],
+      "exampleAdverb": "already",
+      "hint": "Presente perfecto con have/has + participio. Como el tiempo no importa, necesitas un marcador: already, yet, ever o never."
+    },
+    {
+      "id": "past_connected",
+      "label": "Past connected to Present",
+      "tense": "present_perfect",
+      "requiredTimeConstraint": "since January 2026",
+      "exampleAdverb": "",
+      "hint": "Presente perfecto para algo que empezó en el pasado y sigue vigente. El conector obligatorio es 'since January 2026'."
+    },
+    {
+      "id": "scheduled_plan",
+      "label": "Scheduled / Decided Plan",
+      "tense": "future_going_to",
+      "requiredTimeConstraint": null,
+      "exampleAdverb": "",
+      "hint": "Planes o decisiones tomadas de antemano: am / is / are going to + verbo en infinitivo."
+    },
+    {
+      "id": "instant_decision",
+      "label": "Instant Decision / Promise",
+      "tense": "future_will",
+      "requiredTimeConstraint": null,
+      "exampleAdverb": "",
+      "hint": "Decisiones espontáneas, ofertas o promesas: will + verbo en infinitivo."
+    },
+    {
+      "id": "past_interrupted",
+      "label": "Past Action Interrupted",
+      "tense": "past_continuous",
+      "requiredTimeConstraint": null,
+      "exampleAdverb": "",
+      "hint": "Pasado continuo: was / were + verbo en -ing, para la acción que ya estaba curso cuando ocurrió otra cosa."
+    },
+    {
+      "id": "prior_past_action",
+      "label": "Action Prior to another Past Action",
+      "tense": "past_perfect",
+      "requiredTimeConstraint": null,
+      "exampleAdverb": "",
+      "hint": "Pasado perfecto: had + participio. La acción ocurrió antes que otra en el pasado."
+    }
+  ]
+}
