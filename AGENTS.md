@@ -17,6 +17,13 @@ No hay framework de tests. `npm run check` **es** la suite: ejecuta `scripts/che
 
 Orden útil antes de cerrar un cambio en el validador: `npm run lint && npm run check && npm run build`.
 
+## Memoria
+- Al empezar, lee `MEMORY.md` para conocer el estado del proyecto y las decisiones tomadas.
+- Al terminar una tarea, actualízalo: estado actual, decisiones importantes (con su porqué) y errores a evitar.
+- Mantenlo breve (máximo ~50 líneas): resume o elimina lo que ya no aporte.
+- Si algo se convierte en una regla permanente, propón moverlo a `AGENTS.md` en lugar de dejarlo en la memoria.
+- No guardes nunca datos sensibles (claves, tokens, datos personales).
+
 ## Restricciones del compilador (rompen cambios silenciosamente)
 
 `tsconfig.app.json` activa estas opciones; incumplirlas rompe el build:
@@ -33,6 +40,31 @@ Orden útil antes de cerrar un cambio en el validador: `npm run lint && npm run 
 `buildExample(combo)` (en `src/lib/validator.ts`) genera la oración de ejemplo que se muestra con el botón "Ver ejemplo". Esa oración **tiene que pasar** `validate()`. `npm run check` recorre las 756 combinaciones posibles y falla si alguna no valida.
 
 Si cambias la gramática esperada (auxiliar, forma verbal, conectores), cambia `buildExample` en el mismo commit o el botón empezará a mentir.
+
+## Función Reported Speech
+
+La función Reported Speech se desbloquea después de contestar correctamente la consigna primaria. Su comportamiento:
+
+- **Desbloqueo**: Aparece después de `setIsPrimaryValid(true)` en la función `check()` cuando `outcome.valid` es true
+- **Input auto-prellenado**: Un `useEffect` sincroniza `reportedSpeechInput` a `"Maria said that "` cuando `isPrimaryValid` becomes true
+- **Validación exhaustiva**: `validateReportedSpeech(reportedSpeechInput, combo)` verifica:
+  - El prefijo `"Maria said that"`
+  - Backshift (cambio de tiempo verbal): present → past (is → was, am/are → was, have/has → had)
+  - Pronombres: I → she, he; my → her, his; me → her, him
+  - Conectores obligatorios: that, if, whether
+- **Feedback**: Muestra "¡Correcto!" o el primer error encontrado
+
+**Archivos clave:**
+- `src/lib/reportedSpeech.ts`: Lógica de transformación y validación exhaustiva
+- `src/App.tsx`: Estado (`isPrimaryValid`, `reportedSpeechInput`, `isReportedValid`, `reportedFeedbackMessage`) y UI dinámica
+- `src/lib/validator.ts`: Motor de validación principal
+
+**Para desarrollar sobre Reported Speech:**
+- Si añades nuevos tiempos verbales, actualiza `planAux` y `buildExample` en `src/lib/validator.ts` (igual que la invariante central)
+- Los `switch` en `buildExample`, `planAux` y `verbFormMessage` son exhaustivos sin `default`
+- `buildExample(combo)` debe siempre pasar `validate()` - inspeccionado por `npm run check` sobre 756 combinaciones
+- El `useEffect` de sincronización del input (`src/App.tsx`) depende de `[isPrimaryValid, reportedSpeechInput]`
+- Los mensajes de error van en `mustPass[]` y `mustFail[]` lists al final de `scripts/check-validator.ts`
 
 ## `npm run check` en detalle
 

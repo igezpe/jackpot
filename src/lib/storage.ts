@@ -34,6 +34,31 @@ export function saveToStorage(data: ReelsData): boolean {
   }
 }
 
+/**
+ * Guarda datos con debounce para evitar guardar en cada keystroke.
+ * Espera `delayMs` milisegundos después de la última llamada antes de guardar.
+ * Útil para auto-save en editores de configuración.
+ */
+export function saveToStorageDebounced(
+  data: ReelsData,
+  delayMs: number = 500
+): { id: NodeJS.Timeout | null; save: () => void } {
+  let timeoutId: NodeJS.Timeout | null = null
+
+  const save = () => {
+    if (timeoutId !== null) {
+      window.clearTimeout(timeoutId)
+      timeoutId = null
+    }
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data, null, 2))
+  }
+
+  return {
+    id: setTimeout(save, delayMs),
+    save,
+  }
+}
+
 export function clearStorage(): void {
   if (typeof window === 'undefined') return
   try {

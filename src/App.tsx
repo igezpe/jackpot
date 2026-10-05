@@ -3,6 +3,7 @@ import { TENSE_INFO } from './lib/grammar'
 import { useReelsData } from './hooks/useReelsData'
 import { useSlotMachine } from './hooks/useSlotMachine'
 import { buildExample, validate, type ValidationResult } from './lib/validator'
+import { validateReportedSpeech, generateReportedSpeech } from './lib/reportedSpeech'
 import { AnswerPanel } from './components/AnswerPanel'
 import { ConfigModal } from './components/ConfigModal'
 import { Reel } from './components/Reel'
@@ -49,15 +50,44 @@ export default function App() {
   const [configOpen, setConfigOpen] = useState(false)
   const [solved, setSolved] = useState(0)
   const [misses, setMisses] = useState(0)
+  const [isPrimaryValid, setIsPrimaryValid] = useState(false)
+  const [_primarySentence, setPrimarySentence] = useState('')
+  const [reportedSpeechInput, setReportedSpeechInput] = useState('')
+  const [_isReportedValid, setIsReportedValid] = useState(null)
+  const [_reportedFeedbackMessage, setReportedFeedbackMessage] = useState('')
 
   const check = useCallback(() => {
     const outcome = validate(answer, combo, data.subjects)
     setResult(outcome)
     setAttempt((n) => n + 1)
     setShowExample(false)
+    // Si la respuesta es correcta, desbloquea el Paso 2: Reported Speech
+    if (outcome.valid) {
+      setIsPrimaryValid(true)
+    }
     setSolved((n) => (outcome.valid ? n + 1 : n))
     setMisses((n) => (outcome.valid ? n : n + 1))
-  }, [answer, combo, data.subjects])
+  }, [answer, combo, data.subjects, isPrimaryValid])
+  const validateReportedSpeechHandler = useCallback(() => {
+    console.log('=== Handler clicked ===')
+    console.log('isPrimaryValid:', isPrimaryValid)
+    console.log('reportedSpeechInput:', JSON.stringify(reportedSpeechInput))
+    console.log('combo subject:', combo?.subject)
+    console.log('combo verb:', combo?.verb)
+    console.log('combo moment tense:', combo?.moment?.tense)
+    console.log('combo moment constraint:', combo?.moment?.requiredTimeConstraint)
+    if (!isPrimaryValid) return
+    console.log('Proceeding to validate')
+    const outcome = validateReportedSpeech(reportedSpeechInput, combo)
+    console.log('Valid outcome:', outcome)
+    console.log('Outcome errors:', outcome.errors)
+    console.log('Outcome issues:', outcome.issues)
+    console.log('Outcome warnings:', outcome.warnings)
+    setIsReportedValid(outcome.valid)
+    setReportedFeedbackMessage(outcome.valid ? 'Correcto' : (outcome.errors[0]?.message || 'Error'))
+  }, [reportedSpeechInput, isPrimaryValid, combo])
+
+
 
   /* Tirar limpia el intento anterior: se hace aquí y no en un efecto para
      evitar un render intermedio con datos viejos. */
@@ -65,6 +95,7 @@ export default function App() {
     setResult(null)
     setAnswer('')
     setShowExample(false)
+    setIsPrimaryValid(false)
     spin()
   }, [spin])
 
@@ -85,6 +116,15 @@ export default function App() {
   /* Estable para que el modal de configuración no registre sus listeners
      de teclado en cada render mientras editas los rodillos. */
   const closeConfig = useCallback(() => setConfigOpen(false), [])
+  
+  // Sincronizar reportedSpeechInput cuando isPrimaryValid cambia
+  useEffect(() => {
+    if (isPrimaryValid && reportedSpeechInput.trim().length === 0) {
+      setReportedSpeechInput('Maria said that ')
+    }
+  }, [isPrimaryValid, reportedSpeechInput])
+
+
 
   const placeholder = useMemo(() => {
     const verb = combo.verb.verb.toLowerCase()
@@ -230,7 +270,60 @@ export default function App() {
         />
 
         {/* Pie */}
-        <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
+        
+
+        {/* Reported Speech Step - appears after primary validation */}
+        {isPrimaryValid && (
+          <div className="panel relative mt-6 overflow-hidden p-4 sm:p-6 bg-gold-500/20">
+            <h3 className="font-display text-gold-gradient text-sm font-bold uppercase mb-4">
+              Paso 2: Reported Speech
+            </h3>
+            <p className="text-sm text-slate-400 mb-3">
+              Imagina que <strong>Maria</strong> dijo esta oración. Transforma a Reported Speech
+              comenzando por <code>"Maria said that"\</code>
+            </p>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 mb-4">
+              <label className="text-xs text-slate-500 uppercase mb-1">
+                Tu respuesta:
+              </label>
+              <input
+                className="field w-full sm:w-auto"
+                value={reportedSpeechInput}
+                onChange={(e) => setReportedSpeechInput(e.target.value)}
+                placeholder="Maria said that..."
+                disabled={spinning}
+              />
+            </div>
+            <button
+              type="button"
+              onClick={validateReportedSpeechHandler}
+              disabled={spinning || !reportedSpeechInput.startsWith('Maria said that')}
+              className="w-full sm:w-auto rounded-2xl px-4 py-2 text-sm font-medium text-night-950 bg-gradient-to-b from-gold-300 via-gold-400 to-gold-600 hover:from-gold-200 hover:via-gold-300 hover:to-gold-500 transition">
+              Validar Reported Speech
+            </button>
+            {/* Mostrar feedback de Reported Speech */}
+            {_isReportedValid !== null && (
+              <p className="text-sm mt-3 flex items-center gap-2">
+                {_isReportedValid
+                  ? <span className="text-gold-400">
+                      <svg className="w-3.5 h-3.5 fill-current text-gold-400" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M9.06 13.54a.75.75 0 01-.08-.03L3.18 6.22a.75.75 0 01-.02-.95l1.36-1.36a.75.75 0 011.06.08L9.06 13.54zM.75 5.75a.75.75 0 01.75-.75h11.25a.75.75 0 01.75.75v9.5a.75.75 0 01-.75.75H2.25a.75.75 0 01-.75-.75V5.75zM1.5 10.75a.75.75 0 01.75-.75h7.5a.75.75 0 01.75.75v3.75a.75.75 0 01-.75.75h-7.5a.75.75 0 01-.75-.75v-3.75zM9.75 15.75a.75.75 0 01.75-.75h4.5a.75.75 0 01.75.75v2.25a.75.75 0 01-.75.75h-4.5a.75.75 0 01-.75-.75v-2.25z"/>
+                      </svg>
+                      ¡Correcto!
+                    </span>
+                  : <span className="text-red-400">
+                      <svg className="w-3.5 h-3.5 fill-current text-red-400" viewBox="0 0 20 20" aria-hidden="true">
+                        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.71 6.53a.75.75 0 00-1.06 1.03L5.05 12.91 1.41 9.39a.75.75 0 00-.53 1.08l3.7 3.7a.75.75 0 001.08-.52l5.17-5.17a.75.75 0 00-.52-1.06L8.71 6.53z"/>
+                      </svg>
+                      ¡Error!
+                    </span>}
+                {_reportedFeedbackMessage && (!_isReportedValid ? ` — ${_reportedFeedbackMessage}` : '')}
+              </p>
+            )}
+          </div>
+        )}
+
+<footer className="mt-6 flex flex-wrap items-center justify-between gap-3 text-xs text-slate-500">
           <p>
             Atajo: <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono">Espacio</kbd> para
             tirar · <kbd className="rounded border border-white/15 bg-white/5 px-1.5 py-0.5 font-mono">Enter</kbd> para
