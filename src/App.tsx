@@ -1,13 +1,28 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { TENSE_INFO } from './lib/grammar'
 import { useReelsData } from './hooks/useReelsData'
+import { useConditionalsData } from './hooks/useConditionalsData'
 import { useSlotMachine } from './hooks/useSlotMachine'
 import { buildExample, validate, type ValidationResult } from './lib/validator'
-import { validateReportedSpeech, generateReportedSpeech } from './lib/reportedSpeech'
+import { validateReportedSpeech } from './lib/reportedSpeech'
 import { AnswerPanel } from './components/AnswerPanel'
 import { ConfigModal } from './components/ConfigModal'
 import { Reel } from './components/Reel'
 import { DiceIcon, GearIcon, TrophyIcon } from './components/icons'
+import ConditionalJackpot from './components/ConditionalJackpot'
+import { ConditionalsConfigModal } from './components/ConditionalsConfigModal'
+import WorkplaceChat from './components/WorkplaceChat'
+import { WorkplaceChatConfigModal } from './components/WorkplaceChatConfigModal'
+import { useWorkplaceChat } from './hooks/useWorkplaceChat'
+import { nextWeight } from './lib/workplaceChat'
+import PhrasalVerbs from './components/PhrasalVerbs'
+import { PhrasalVerbsConfigModal } from './components/PhrasalVerbsConfigModal'
+import { usePhrasalVerbs } from './hooks/usePhrasalVerbs'
+import { nextWeight as nextPhrasalWeight } from './lib/phrasalVerbs'
+import VocabularyJackpot from './components/VocabularyJackpot'
+import { VocabularyConfigModal } from './components/VocabularyConfigModal'
+import { useVocabulary } from './hooks/useVocabulary'
+import { nextWeight as nextVocabWeight } from './lib/vocabulary'
 
 /* -------------------------------------------------------------------------- */
 /*                         Bloque de ayuda del Reel 4                          */
@@ -41,6 +56,41 @@ function MomentHint({ label, hint, tense, constraint }: {
 
 export default function App() {
   const { data, isCustom, storageAvailable, setData, replaceAll, resetToDefault } = useReelsData()
+  const {
+    data: condData,
+    isCustom: condIsCustom,
+    storageAvailable: condStorageAvailable,
+    setData: setCondData,
+    replaceAll: replaceCondAll,
+    resetToDefault: resetCondDefault,
+  } = useConditionalsData()
+  const {
+    phrases: chatPhrases,
+    isCustom: chatIsCustom,
+    storageAvailable: chatStorageAvailable,
+    updatePhrases: updateChatPhrases,
+    replaceAll: replaceChatAll,
+    resetStats: resetChatStats,
+    resetToDefault: resetChatDefault,
+  } = useWorkplaceChat()
+  const {
+    items: phrasalItems,
+    isCustom: phrasalIsCustom,
+    storageAvailable: phrasalStorageAvailable,
+    updateItems: updatePhrasalItems,
+    replaceAll: replacePhrasalAll,
+    resetStats: resetPhrasalStats,
+    resetToDefault: resetPhrasalDefault,
+  } = usePhrasalVerbs()
+  const {
+    items: vocabItems,
+    isCustom: vocabIsCustom,
+    storageAvailable: vocabStorageAvailable,
+    updateItems: updateVocabItems,
+    replaceAll: replaceVocabAll,
+    resetStats: resetVocabStats,
+    resetToDefault: resetVocabDefault,
+  } = useVocabulary()
   const { combo, reels, spinning, spinToken, spin } = useSlotMachine(data)
 
   const [answer, setAnswer] = useState('')
@@ -48,13 +98,23 @@ export default function App() {
   const [attempt, setAttempt] = useState(0)
   const [showExample, setShowExample] = useState(false)
   const [configOpen, setConfigOpen] = useState(false)
+  const [condConfigOpen, setCondConfigOpen] = useState(false)
+  const [chatConfigOpen, setChatConfigOpen] = useState(false)
+  const [phrasalConfigOpen, setPhrasalConfigOpen] = useState(false)
+  const [vocabConfigOpen, setVocabConfigOpen] = useState(false)
   const [solved, setSolved] = useState(0)
   const [misses, setMisses] = useState(0)
   const [isPrimaryValid, setIsPrimaryValid] = useState(false)
-  const [_primarySentence, setPrimarySentence] = useState('')
+  const [currentView, setCurrentView] = useState('jackpot')
   const [reportedSpeechInput, setReportedSpeechInput] = useState('')
-  const [_isReportedValid, setIsReportedValid] = useState(null)
+  const [_isReportedValid, setIsReportedValid] = useState<boolean | null>(null)
   const [_reportedFeedbackMessage, setReportedFeedbackMessage] = useState('')
+
+  // Contador global: lo alimentan todas las secciones.
+  const recordResult = useCallback((correct: boolean) => {
+    setSolved((n) => (correct ? n + 1 : n))
+    setMisses((n) => (correct ? n : n + 1))
+  }, [])
 
   const check = useCallback(() => {
     const outcome = validate(answer, combo, data.subjects)
@@ -65,24 +125,11 @@ export default function App() {
     if (outcome.valid) {
       setIsPrimaryValid(true)
     }
-    setSolved((n) => (outcome.valid ? n + 1 : n))
-    setMisses((n) => (outcome.valid ? n : n + 1))
-  }, [answer, combo, data.subjects, isPrimaryValid])
+    recordResult(outcome.valid)
+  }, [answer, combo, data.subjects, recordResult])
   const validateReportedSpeechHandler = useCallback(() => {
-    console.log('=== Handler clicked ===')
-    console.log('isPrimaryValid:', isPrimaryValid)
-    console.log('reportedSpeechInput:', JSON.stringify(reportedSpeechInput))
-    console.log('combo subject:', combo?.subject)
-    console.log('combo verb:', combo?.verb)
-    console.log('combo moment tense:', combo?.moment?.tense)
-    console.log('combo moment constraint:', combo?.moment?.requiredTimeConstraint)
     if (!isPrimaryValid) return
-    console.log('Proceeding to validate')
     const outcome = validateReportedSpeech(reportedSpeechInput, combo)
-    console.log('Valid outcome:', outcome)
-    console.log('Outcome errors:', outcome.errors)
-    console.log('Outcome issues:', outcome.issues)
-    console.log('Outcome warnings:', outcome.warnings)
     setIsReportedValid(outcome.valid)
     setReportedFeedbackMessage(outcome.valid ? 'Correcto' : (outcome.errors[0]?.message || 'Error'))
   }, [reportedSpeechInput, isPrimaryValid, combo])
@@ -171,6 +218,99 @@ export default function App() {
           </div>
         </header>
 
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+          <button
+            type="button"
+            onClick={() => setCurrentView('jackpot')}
+            className={currentView === 'jackpot' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Jackpot Gramatical
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('conditionals')}
+            className={currentView === 'conditionals' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Conditionals Jackpot
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('workplace')}
+            className={currentView === 'workplace' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Workplace Chat
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('phrasal')}
+            className={currentView === 'phrasal' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Phrasal Verbs
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('vocabulary')}
+            className={currentView === 'vocabulary' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Vocabulary
+          </button>
+        </div>
+
+        {currentView === 'conditionals' && (
+          <ConditionalJackpot
+            data={condData}
+            onOpenConfig={() => setCondConfigOpen(true)}
+            onResult={recordResult}
+          />
+        )}
+
+        {currentView === 'workplace' && (
+          <WorkplaceChat
+            phrases={chatPhrases}
+            onResult={(id, correct) => {
+              updateChatPhrases((list) =>
+                list.map((p) =>
+                  p.id === id ? { ...p, difficultyWeight: nextWeight(p.difficultyWeight, correct) } : p,
+                ),
+              )
+              recordResult(correct)
+            }}
+            onOpenConfig={() => setChatConfigOpen(true)}
+          />
+        )}
+
+        {currentView === 'phrasal' && (
+          <PhrasalVerbs
+            items={phrasalItems}
+            onResult={(id, correct) => {
+              updatePhrasalItems((list) =>
+                list.map((p) =>
+                  p.id === id ? { ...p, difficultyWeight: nextPhrasalWeight(p.difficultyWeight, correct) } : p,
+                ),
+              )
+              recordResult(correct)
+            }}
+            onOpenConfig={() => setPhrasalConfigOpen(true)}
+          />
+        )}
+
+        {currentView === 'vocabulary' && (
+          <VocabularyJackpot
+            items={vocabItems}
+            onResult={(id, correct) => {
+              updateVocabItems((list) =>
+                list.map((p) =>
+                  p.id === id ? { ...p, difficultyWeight: nextVocabWeight(p.difficultyWeight, correct) } : p,
+                ),
+              )
+              recordResult(correct)
+            }}
+            onOpenConfig={() => setVocabConfigOpen(true)}
+          />
+        )}
+
+        {currentView === 'jackpot' && (
+        <>
         {/* Máquina */}
         <main className="panel relative mt-6 overflow-hidden p-4 sm:p-6">
           {/* Luces del marco */}
@@ -331,6 +471,8 @@ export default function App() {
           </p>
           {isCustom && <p className="text-gold-400/80">Configuración personalizada guardada en este navegador.</p>}
         </footer>
+        </>
+        )}
       </div>
 
       <ConfigModal
@@ -342,6 +484,53 @@ export default function App() {
         onReset={resetToDefault}
         isCustom={isCustom}
         storageAvailable={storageAvailable}
+      />
+
+      <ConditionalsConfigModal
+        open={condConfigOpen}
+        onClose={() => setCondConfigOpen(false)}
+        data={condData}
+        onChange={setCondData}
+        onReplaceAll={replaceCondAll}
+        onReset={resetCondDefault}
+        isCustom={condIsCustom}
+        storageAvailable={condStorageAvailable}
+      />
+
+      <WorkplaceChatConfigModal
+        open={chatConfigOpen}
+        onClose={() => setChatConfigOpen(false)}
+        phrases={chatPhrases}
+        onChange={updateChatPhrases}
+        onReplaceAll={replaceChatAll}
+        onResetStats={resetChatStats}
+        onResetDefault={resetChatDefault}
+        isCustom={chatIsCustom}
+        storageAvailable={chatStorageAvailable}
+      />
+
+      <PhrasalVerbsConfigModal
+        open={phrasalConfigOpen}
+        onClose={() => setPhrasalConfigOpen(false)}
+        items={phrasalItems}
+        onChange={updatePhrasalItems}
+        onReplaceAll={replacePhrasalAll}
+        onResetStats={resetPhrasalStats}
+        onResetDefault={resetPhrasalDefault}
+        isCustom={phrasalIsCustom}
+        storageAvailable={phrasalStorageAvailable}
+      />
+
+      <VocabularyConfigModal
+        open={vocabConfigOpen}
+        onClose={() => setVocabConfigOpen(false)}
+        items={vocabItems}
+        onChange={updateVocabItems}
+        onReplaceAll={replaceVocabAll}
+        onResetStats={resetVocabStats}
+        onResetDefault={resetVocabDefault}
+        isCustom={vocabIsCustom}
+        storageAvailable={vocabStorageAvailable}
       />
     </div>
   )

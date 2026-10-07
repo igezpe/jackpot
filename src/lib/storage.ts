@@ -34,31 +34,6 @@ export function saveToStorage(data: ReelsData): boolean {
   }
 }
 
-/**
- * Guarda datos con debounce para evitar guardar en cada keystroke.
- * Espera `delayMs` milisegundos después de la última llamada antes de guardar.
- * Útil para auto-save en editores de configuración.
- */
-export function saveToStorageDebounced(
-  data: ReelsData,
-  delayMs: number = 500
-): { id: NodeJS.Timeout | null; save: () => void } {
-  let timeoutId: NodeJS.Timeout | null = null
-
-  const save = () => {
-    if (timeoutId !== null) {
-      window.clearTimeout(timeoutId)
-      timeoutId = null
-    }
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(data, null, 2))
-  }
-
-  return {
-    id: setTimeout(save, delayMs),
-    save,
-  }
-}
-
 export function clearStorage(): void {
   if (typeof window === 'undefined') return
   try {
@@ -234,8 +209,8 @@ export function validateSchema(input: unknown): SchemaReport {
 /*                         Exportación / importación                          */
 /* -------------------------------------------------------------------------- */
 
-/** Descarga la configuración como fichero `.json`. */
-export function downloadJson(data: ReelsData, filename = 'reelsData.json'): void {
+/** Descarga cualquier objeto serializable como fichero `.json`. */
+export function downloadJsonFile(data: unknown, filename: string): void {
   const blob = new Blob([`${JSON.stringify(data, null, 2)}\n`], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const anchor = document.createElement('a')
@@ -245,6 +220,11 @@ export function downloadJson(data: ReelsData, filename = 'reelsData.json'): void
   anchor.click()
   anchor.remove()
   URL.revokeObjectURL(url)
+}
+
+/** Descarga la configuración de los rodillos como fichero `.json`. */
+export function downloadJson(data: ReelsData, filename = 'reelsData.json'): void {
+  downloadJsonFile(data, filename)
 }
 
 /** Lee un `File` y devuelve su contenido parseado. */

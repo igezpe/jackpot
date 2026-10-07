@@ -1,0 +1,17 @@
+{
+  "name": "English Jackpot",
+  "short_name": "Jackpot",
+  "description": "Practicá inglés con tragamonedas: gramática, condicionales, workplace chat, phrasal verbs y vocabulario.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07040f",
+  "theme_color": "#07040f",
+  "lang": "es",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

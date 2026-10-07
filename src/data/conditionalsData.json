@@ -1,0 +1,42 @@
+{
+  "usages": [
+    { "id": "u1", "label": "Real future possibility", "conditionalType": "first", "description": "Algo probable en el futuro." },
+    { "id": "u2", "label": "Promise or warning", "conditionalType": "first", "description": "Promesa o advertencia sobre el futuro." },
+    { "id": "u3", "label": "Hypothetical present", "conditionalType": "second", "description": "Situación hipotética en el presente." },
+    { "id": "u4", "label": "Imaginary situation", "conditionalType": "second", "description": "Situación imaginaria o irreal." },
+    { "id": "u5", "label": "Regret about the past", "conditionalType": "third", "description": "Lamento por algo que no ocurrió." },
+    { "id": "u6", "label": "General truth or rule", "conditionalType": "zero", "description": "Verdad general o rutina." }
+  ],
+  "subjects": [
+    { "id": "s1", "label": "I",   "allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] },
+    { "id": "s2", "label": "You", "allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] },
+    { "id": "s3", "label": "He",  "allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] },
+    { "id": "s4", "label": "She", "allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] },
+    { "id": "s5", "label": "We",  "allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] },
+    { "id": "s6", "label": "They","allowedConditions": ["c1", "c2", "c3", "c4", "c5", "c6"] }
+  ],
+  "conditions": [
+    { "id": "c1", "conditionalType": "first",  "verb": { "base": "study", "third": "studies", "past": "studied", "participle": "studied" }, "complement": "hard",         "allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r1", "r2"] },
+    { "id": "c2", "conditionalType": "first",  "verb": { "base": "save",  "third": "saves",   "past": "saved",   "participle": "saved"   }, "complement": "money",        "allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r3", "r4"] },
+    { "id": "c3", "conditionalType": "second", "verb": { "base": "win",   "third": "wins",    "past": "won",     "participle": "won"     }, "complement": "the lottery",  "allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r5", "r6"] },
+    { "id": "c4", "conditionalType": "second", "verb": { "base": "have",  "third": "has",     "past": "had",     "participle": "had"     }, "complement": "more free time","allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r7"] },
+    { "id": "c5", "conditionalType": "third",  "verb": { "base": "leave", "third": "leaves",  "past": "left",    "participle": "left"    }, "complement": "earlier",      "allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r8", "r9"] },
+    { "id": "c6", "conditionalType": "zero",   "verb": { "base": "heat",  "third": "heats",   "past": "heated",  "participle": "heated"  }, "complement": "water",        "allowedSubjects": ["s1", "s2", "s3", "s4", "s5", "s6"], "compatibleResults": ["r10"] }
+  ],
+  "results": [
+    { "id": "r1",  "conditionalType": "first",  "verb": { "base": "pass",  "third": "passes",  "past": "passed",  "participle": "passed"  }, "complement": "the exam" },
+    { "id": "r2",  "conditionalType": "first",  "verb": { "base": "get",   "third": "gets",    "past": "got",     "participle": "got"     }, "complement": "a good job" },
+    { "id": "r3",  "conditionalType": "first",  "verb": { "base": "buy",   "third": "buys",    "past": "bought",  "participle": "bought"  }, "complement": "a house" },
+    { "id": "r4",  "conditionalType": "first",  "verb": { "base": "travel","third": "travels", "past": "travelled","participle": "travelled" }, "complement": "around the world" },
+    { "id": "r5",  "conditionalType": "second", "verb": { "base": "buy",   "third": "buys",    "past": "bought",  "participle": "bought"  }, "complement": "a big house" },
+    { "id": "r6",  "conditionalType": "second", "verb": { "base": "travel","third": "travels", "past": "travelled","participle": "travelled" }, "complement": "the world" },
+    { "id": "r7",  "conditionalType": "second", "verb": { "base": "read",  "third": "reads",   "past": "read",    "participle": "read"    }, "complement": "more books" },
+    { "id": "r8",  "conditionalType": "third",  "verb": { "base": "pass",  "third": "passes",  "past": "passed",  "participle": "passed"  }, "complement": "the exam" },
+    { "id": "r9",  "conditionalType": "third",  "verb": { "base": "arrive","third": "arrives", "past": "arrived", "participle": "arrived" }, "complement": "on time" },
+    { "id": "r10", "conditionalType": "zero",   "resultSubject": "it", "verb": { "base": "boil", "third": "boils", "past": "boiled", "participle": "boiled" }, "complement": "" }
+  ],
+  "polarities": [
+    { "id": "pos", "label": "Positive [ + ]" },
+    { "id": "neg", "label": "Negative [ - ]" }
+  ]
+}

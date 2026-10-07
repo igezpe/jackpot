@@ -29,7 +29,7 @@ export function useReelsData(): ReelsDataState {
   // `data` cambia en cada edición; el efecto persiste sin bloquear el render.
   const firstRun = useRef(true)
   const skipPersist = useRef(false)
-  const persistTimer = useRef(null)
+  const persistTimer = useRef<number | null>(null)
   useEffect(() => {
     if (firstRun.current) {
       firstRun.current = false

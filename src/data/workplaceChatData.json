@@ -1,0 +1,93 @@
+[
+  {
+    "id": "chat_1",
+    "spanish": "Dejo una consulta",
+    "englishVariants": ["Leaving a question for you", "Leaving a quick question for you"],
+    "category": "Chat rápido",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_2",
+    "spanish": "Responde cuando puedas",
+    "englishVariants": ["Feel free to answer whenever you have a chance", "Reply whenever you can", "Answer when you have a moment"],
+    "category": "Cortesía",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_3",
+    "spanish": "Podría ayudarme con...",
+    "englishVariants": ["Could you please help me with...", "Could you help me with..."],
+    "category": "Petición",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_4",
+    "spanish": "Te aviso apenas termine",
+    "englishVariants": ["I'll let you know as soon as it finishes", "I'll let you know as soon as I finish"],
+    "category": "Confirmación",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_5",
+    "spanish": "Qué credenciales debo utilizar para ingresar?",
+    "englishVariants": ["Which credentials should I use to log in?", "What credentials should I use to log in?"],
+    "category": "Consultas técnicas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_6",
+    "spanish": "Si tienes consultas avisame",
+    "englishVariants": ["Let me know if you have any questions", "Let me know if you have any query"],
+    "category": "Cortesía",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_7",
+    "spanish": "Ya me pongo con eso",
+    "englishVariants": ["On it!", "Doing that right now", "I'm on it!"],
+    "category": "Confirmación rápida",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_8",
+    "spanish": "Lo haré",
+    "englishVariants": ["Will do!", "Will do"],
+    "category": "Confirmación rápida",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_9",
+    "spanish": "Entiendo, dame un segundo...",
+    "englishVariants": ["Got it, give me a second...", "Got it! Give me a second while..."],
+    "category": "Chat rápido",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_10",
+    "spanish": "Estoy con eso, te aviso ni bien...",
+    "englishVariants": ["On it, I'll let you know as soon as...", "Working on it, I'll let you know as soon as..."],
+    "category": "Confirmación",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_11",
+    "spanish": "Disculpa por molestar",
+    "englishVariants": ["Sorry to bother you!", "Sorry to bother you"],
+    "category": "Cortesía",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_12",
+    "spanish": "Gracias nuevamente y disculpa por las molestias",
+    "englishVariants": ["Thanks again and sorry for the extra hassle", "Thanks again and sorry for the trouble"],
+    "category": "Cortesía",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_13",
+    "spanish": "Te voy a sumar a la cadena de mails",
+    "englishVariants": ["I will loop you in that email", "I'll loop you in on that email", "I will loop you in on that thread"],
+    "category": "Email / Chat",
+    "difficultyWeight": 1
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "voc_1",
+    "spanish": "Para bien / Para mejor",
+    "english": "for the better",
+    "variants": ["for the better"],
+    "category": "Expresiones fijas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_2",
+    "spanish": "Para peor",
+    "english": "for the worst",
+    "variants": ["for the worst"],
+    "category": "Expresiones fijas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_3",
+    "spanish": "Para el bien (definitivo) / Para siempre",
+    "english": "for good",
+    "variants": ["for good", "for the good"],
+    "category": "Expresiones fijas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_4",
+    "spanish": "Niño / Niña (singular)",
+    "english": "child",
+    "variants": ["child"],
+    "category": "Sustantivos / Personas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_5",
+    "spanish": "Niños / Niñas (plural)",
+    "english": "children",
+    "variants": ["children"],
+    "category": "Sustantivos / Personas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_6",
+    "spanish": "Codo",
+    "english": "elbow",
+    "variants": ["elbow"],
+    "category": "Cuerpo - Externo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_7",
+    "spanish": "Rodilla",
+    "english": "knee",
+    "variants": ["knee"],
+    "category": "Cuerpo - Externo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_8",
+    "spanish": "Tobillo",
+    "english": "ankle",
+    "variants": ["ankle"],
+    "category": "Cuerpo - Externo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_9",
+    "spanish": "Muñeca (de la mano)",
+    "english": "wrist",
+    "variants": ["wrist"],
+    "category": "Cuerpo - Externo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_10",
+    "spanish": "Hombro",
+    "english": "shoulder",
+    "variants": ["shoulder"],
+    "category": "Cuerpo - Externo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_11",
+    "spanish": "Intestino / Intestinos",
+    "english": "intestine",
+    "variants": ["intestine", "intestines", "gut", "bowel"],
+    "category": "Cuerpo - Org. Internos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_12",
+    "spanish": "Pulmón / Pulmones",
+    "english": "lung",
+    "variants": ["lung", "lungs"],
+    "category": "Cuerpo - Org. Internos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_13",
+    "spanish": "Hígado",
+    "english": "liver",
+    "variants": ["liver"],
+    "category": "Cuerpo - Org. Internos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_14",
+    "spanish": "Riñón / Riñones",
+    "english": "kidney",
+    "variants": ["kidney", "kidneys"],
+    "category": "Cuerpo - Org. Internos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "voc_15",
+    "spanish": "Corazón",
+    "english": "heart",
+    "variants": ["heart"],
+    "category": "Cuerpo - Org. Internos",
+    "difficultyWeight": 1
+  }
+]
