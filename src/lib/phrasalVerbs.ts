@@ -46,6 +46,109 @@ function tokens(input: string): string[] {
   return normalizeAnswerText(input).replace(/^to /, '').split(' ').filter(Boolean)
 }
 
+/** Pasado/participio de verbos irregulares frecuentes (base → formas extra). */
+const IRREGULAR_VERBS: Record<string, string[]> = {
+  go: ['went', 'gone', 'goes'],
+  come: ['came', 'comes'],
+  take: ['took', 'taken', 'takes'],
+  find: ['found', 'finds'],
+  run: ['ran', 'runs'],
+  bring: ['brought', 'brings'],
+  put: ['put', 'puts'],
+  leave: ['left', 'leaves'],
+  win: ['won', 'wins'],
+  buy: ['bought', 'buys'],
+  get: ['got', 'gotten', 'gets'],
+  have: ['had', 'has'],
+  make: ['made', 'makes'],
+  see: ['saw', 'seen', 'sees'],
+  do: ['did', 'done', 'does'],
+  read: ['read', 'reads'],
+  write: ['wrote', 'written', 'writes'],
+  give: ['gave', 'given', 'gives'],
+  know: ['knew', 'known', 'knows'],
+  think: ['thought', 'thinks'],
+  keep: ['kept', 'keeps'],
+  hold: ['held', 'holds'],
+  say: ['said', 'says'],
+  pay: ['paid', 'pays'],
+  meet: ['met', 'meets'],
+  send: ['sent', 'sends'],
+  build: ['built', 'builds'],
+  lose: ['lost', 'loses'],
+  catch: ['caught', 'catches'],
+  teach: ['taught', 'teaches'],
+  set: ['set', 'sets'],
+  cut: ['cut', 'cuts'],
+  let: ['let', 'lets'],
+  shut: ['shut', 'shuts'],
+  break: ['broke', 'broken', 'breaks'],
+  choose: ['chose', 'chosen', 'chooses'],
+  drive: ['drove', 'driven', 'drives'],
+  eat: ['ate', 'eaten', 'eats'],
+  fall: ['fell', 'fallen', 'falls'],
+  feel: ['felt', 'feels'],
+  forget: ['forgot', 'forgotten', 'forgets'],
+  grow: ['grew', 'grown', 'grows'],
+  hear: ['heard', 'hears'],
+  hide: ['hid', 'hidden', 'hides'],
+  hit: ['hit', 'hits'],
+  hurt: ['hurt', 'hurts'],
+  mean: ['meant', 'means'],
+  quit: ['quit', 'quits'],
+  ride: ['rode', 'ridden', 'rides'],
+  ring: ['rang', 'rung', 'rings'],
+  rise: ['rose', 'risen', 'rises'],
+  sell: ['sold', 'sells'],
+  shake: ['shook', 'shaken', 'shakes'],
+  show: ['showed', 'shown', 'shows'],
+  sing: ['sang', 'sung', 'sings'],
+  sit: ['sat', 'sits'],
+  speak: ['spoke', 'spoken', 'speaks'],
+  spend: ['spent', 'spends'],
+  stand: ['stood', 'stands'],
+  steal: ['stole', 'stolen', 'steals'],
+  swim: ['swam', 'swum', 'swims'],
+  throw: ['threw', 'thrown', 'throws'],
+  understand: ['understood', 'understands'],
+  wake: ['woke', 'woken', 'wakes'],
+  wear: ['wore', 'worn', 'wears'],
+}
+
+/** Patrón consonante-vocal-consonante final (para doblar: put → putting). */
+const CVC = /[^aeiou][aeiou][^aeiouwxy]$/
+
+/** Formas aceptables de la primera palabra (base, 3ª persona, -ing, pasado). */
+function verbForms(base: string): Set<string> {
+  const w = base.toLowerCase()
+  const forms = new Set<string>([w])
+  if (/(s|x|z|ch|sh|o)$/.test(w)) forms.add(`${w}es`)
+  else if (/[^aeiou]y$/.test(w)) forms.add(`${w.slice(0, -1)}ies`)
+  else forms.add(`${w}s`)
+
+  // -ing (con doblado si corresponde)
+  if (w.endsWith('e') && !w.endsWith('ee')) {
+    forms.add(`${w.slice(0, -1)}ing`)
+  } else {
+    if (CVC.test(w)) forms.add(`${w}${w.slice(-1)}ing`)
+    forms.add(`${w}ing`)
+  }
+
+  // Pasado / participio
+  const irregular = IRREGULAR_VERBS[w]
+  if (irregular) {
+    irregular.forEach((form) => forms.add(form))
+  } else if (w.endsWith('e')) {
+    forms.add(`${w}d`)
+  } else if (/[^aeiou]y$/.test(w)) {
+    forms.add(`${w.slice(0, -1)}ied`)
+  } else {
+    if (CVC.test(w)) forms.add(`${w}${w.slice(-1)}ed`)
+    forms.add(`${w}ed`)
+  }
+  return forms
+}
+
 /**
  * Valida un phrasal verb. Tolerante:
  *  - coincide exactamente con el principal o una variante;
@@ -68,12 +171,21 @@ export function validatePhrasalAnswer(answer: string, item: PhrasalVerbItem): Ph
     }
   }
 
-  // 2) Tolerancia por partícula: misma cantidad de palabras y misma cola (sin el verbo).
+  // 2) Tolerancia: misma partícula Y el verbo debe ser una conjugación del esperado.
   for (const candidate of accepted) {
     const cand = tokens(candidate)
-    if (cand.length >= 2 && cand.length === ans.length) {
-      const tail = cand.slice(1).join(' ')
-      if (ans.slice(1).join(' ') === tail) {
+
+    // Variante de una sola palabra: admite conjugaciones (cancel → cancelled).
+    if (cand.length === 1) {
+      if (ans.length === 1 && verbForms(cand[0]!).has(ans[0]!)) {
+        return { isValid: true, feedback: '¡Correcto! Buen phrasal verb.', matchedVariant: candidate, accepted }
+      }
+      continue
+    }
+
+    // Variante de varias palabras: misma cola (partícula) y verbo conjugado del correcto.
+    if (cand.length === ans.length && ans.slice(1).join(' ') === cand.slice(1).join(' ')) {
+      if (verbForms(cand[0]!).has(ans[0]!)) {
         return { isValid: true, feedback: '¡Correcto! La partícula es la clave.', matchedVariant: candidate, accepted }
       }
     }
