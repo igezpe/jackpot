@@ -220,10 +220,10 @@
       "id": "24",
       "verb": "Speak",
       "object": "aloud",
-      "past": "spoke to",
-      "participle": "spoken to",
-      "ing": "speaking to",
-      "third": "speaks to"
+      "past": "spoke",
+      "participle": "spoken",
+      "ing": "speaking",
+      "third": "speaks"
     }
   ],
   "sentenceTypes": [
