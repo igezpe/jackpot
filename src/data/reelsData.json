@@ -1,5 +1,13 @@
 {
-  "subjects": ["I", "You", "He", "She", "We", "They", "My friends"],
+  "subjects": [
+    "I",
+    "You",
+    "He",
+    "She",
+    "We",
+    "They",
+    "My friends"
+  ],
   "verbs": [
     {
       "id": "1",
@@ -36,12 +44,204 @@
       "participle": "finished",
       "ing": "finishing",
       "third": "finishes"
+    },
+    {
+      "id": "5",
+      "verb": "Write",
+      "object": "a report",
+      "past": "wrote",
+      "participle": "written",
+      "ing": "writing",
+      "third": "writes"
+    },
+    {
+      "id": "6",
+      "verb": "Build",
+      "object": "an application",
+      "past": "built",
+      "participle": "built",
+      "ing": "building",
+      "third": "builds"
+    },
+    {
+      "id": "7",
+      "verb": "Send",
+      "object": "an email",
+      "past": "sent",
+      "participle": "sent",
+      "ing": "sending",
+      "third": "sends"
+    },
+    {
+      "id": "8",
+      "verb": "Pay",
+      "object": "the bills",
+      "past": "paid",
+      "participle": "paid",
+      "ing": "paying",
+      "third": "pays"
+    },
+    {
+      "id": "9",
+      "verb": "Clean",
+      "object": "the house",
+      "past": "cleaned",
+      "participle": "cleaned",
+      "ing": "cleaning",
+      "third": "cleans"
+    },
+    {
+      "id": "10",
+      "verb": "Find",
+      "object": "a solution",
+      "past": "found",
+      "participle": "found",
+      "ing": "finding",
+      "third": "finds"
+    },
+    {
+      "id": "11",
+      "verb": "Make",
+      "object": "a mistake",
+      "past": "made",
+      "participle": "made",
+      "ing": "making",
+      "third": "makes"
+    },
+    {
+      "id": "12",
+      "verb": "Fix",
+      "object": "the problem",
+      "past": "fixed",
+      "participle": "fixed",
+      "ing": "fixing",
+      "third": "fixes"
+    },
+    {
+      "id": "13",
+      "verb": "Drive",
+      "object": "a truck",
+      "past": "drove",
+      "participle": "driven",
+      "ing": "driving",
+      "third": "drives"
+    },
+    {
+      "id": "14",
+      "verb": "Read",
+      "object": "the document",
+      "past": "read",
+      "participle": "read",
+      "ing": "reading",
+      "third": "reads"
+    },
+    {
+      "id": "15",
+      "verb": "Sign",
+      "object": "the contract",
+      "past": "signed",
+      "participle": "signed",
+      "ing": "signing",
+      "third": "signs"
+    },
+    {
+      "id": "16",
+      "verb": "Lose",
+      "object": "their keys",
+      "past": "lost",
+      "participle": "lost",
+      "ing": "losing",
+      "third": "loses"
+    },
+    {
+      "id": "17",
+      "verb": "Take",
+      "object": "a decision",
+      "past": "took",
+      "participle": "taken",
+      "ing": "taking",
+      "third": "takes"
+    },
+    {
+      "id": "18",
+      "verb": "Prepare",
+      "object": "dinner",
+      "past": "prepared",
+      "participle": "prepared",
+      "ing": "preparing",
+      "third": "prepares"
+    },
+    {
+      "id": "19",
+      "verb": "Sell",
+      "object": "their apartment",
+      "past": "sold",
+      "participle": "sold",
+      "ing": "selling",
+      "third": "sells"
+    },
+    {
+      "id": "20",
+      "verb": "Watch",
+      "object": "a movie",
+      "past": "watched",
+      "participle": "watched",
+      "ing": "watching",
+      "third": "watches"
+    },
+    {
+      "id": "21",
+      "verb": "Choose",
+      "object": "an option",
+      "past": "chose",
+      "participle": "chosen",
+      "ing": "choosing",
+      "third": "chooses"
+    },
+    {
+      "id": "22",
+      "verb": "Cancel",
+      "object": "the meeting",
+      "past": "canceled",
+      "participle": "canceled",
+      "ing": "canceling",
+      "third": "cancels"
+    },
+    {
+      "id": "23",
+      "verb": "Create",
+      "object": "a feature",
+      "past": "created",
+      "participle": "created",
+      "ing": "creating",
+      "third": "creates"
+    },
+    {
+      "id": "24",
+      "verb": "Speak",
+      "object": "aloud",
+      "past": "spoke to",
+      "participle": "spoken to",
+      "ing": "speaking to",
+      "third": "speaks to"
     }
   ],
   "sentenceTypes": [
-    { "id": "aff", "label": "[ + ] Affirmative", "type": "affirmative" },
-    { "id": "neg", "label": "[ - ] Negative", "type": "negative" },
-    { "id": "int", "label": "[ ? ] Interrogative", "type": "interrogative" }
+    {
+      "id": "aff",
+      "label": "[ + ] Affirmative",
+      "type": "affirmative"
+    },
+    {
+      "id": "neg",
+      "label": "[ - ] Negative",
+      "type": "negative"
+    },
+    {
+      "id": "int",
+      "label": "[ ? ] Interrogative",
+      "type": "interrogative"
+    }
   ],
   "moments": [
     {
@@ -68,7 +268,14 @@
       "label": "Happening Right Now",
       "tense": "present_continuous",
       "requiredTimeConstraint": null,
-      "suggestAnyOf": ["now", "right now", "at the moment", "currently", "look", "listen"],
+      "suggestAnyOf": [
+        "now",
+        "right now",
+        "at the moment",
+        "currently",
+        "look",
+        "listen"
+      ],
       "exampleAdverb": "right now",
       "hint": "Presente continuo: am / is / are + verbo en -ing. Se usa con now, at the moment, Look!, Listen!"
     },
@@ -85,7 +292,12 @@
       "label": "Finished Past (Time NOT important)",
       "tense": "present_perfect",
       "requiredTimeConstraint": null,
-      "requiredAnyOf": ["already", "yet", "ever", "never"],
+      "requiredAnyOf": [
+        "already",
+        "yet",
+        "ever",
+        "never"
+      ],
       "exampleAdverb": "already",
       "hint": "Presente perfecto con have/has + participio. Como el tiempo no importa, necesitas un marcador: already, yet, ever o never."
     },

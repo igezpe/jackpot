@@ -3,7 +3,11 @@
     "id": "pv_1",
     "spanish": "Revisar / Repasar",
     "phrasalVerb": "go over",
-    "variants": ["go over", "check over", "look over"],
+    "variants": [
+      "go over",
+      "check over",
+      "look over"
+    ],
     "exampleContext": "I need to ________ the report before the meeting.",
     "category": "Documentos / Revisión",
     "difficultyWeight": 1
@@ -12,7 +16,10 @@
     "id": "pv_2",
     "spanish": "Investigar / Analizar",
     "phrasalVerb": "look into",
-    "variants": ["look into", "check out"],
+    "variants": [
+      "look into",
+      "check out"
+    ],
     "exampleContext": "The support team will ________ the issue immediately.",
     "category": "Análisis / Problemas",
     "difficultyWeight": 1
@@ -21,7 +28,10 @@
     "id": "pv_3",
     "spanish": "Cuidar / Ocuparse de",
     "phrasalVerb": "look after",
-    "variants": ["look after", "take care of"],
+    "variants": [
+      "look after",
+      "take care of"
+    ],
     "exampleContext": "Don't worry, I will ________ that project while you are on vacation.",
     "category": "Responsabilidades",
     "difficultyWeight": 1
@@ -30,7 +40,10 @@
     "id": "pv_4",
     "spanish": "Proponer / Sugerir una idea",
     "phrasalVerb": "come up with",
-    "variants": ["come up with", "bring up"],
+    "variants": [
+      "come up with",
+      "bring up"
+    ],
     "exampleContext": "She ________ a great idea during the brainstorming session.",
     "category": "Reuniones / Ideas",
     "difficultyWeight": 1
@@ -39,7 +52,10 @@
     "id": "pv_5",
     "spanish": "Posponer / Aplazar",
     "phrasalVerb": "put off",
-    "variants": ["put off", "delay"],
+    "variants": [
+      "put off",
+      "delay"
+    ],
     "exampleContext": "We had to ________ the meeting until next Monday.",
     "category": "Planificación",
     "difficultyWeight": 1
@@ -48,7 +64,9 @@
     "id": "pv_6",
     "spanish": "Hacerse cargo / Asumir el control",
     "phrasalVerb": "take over",
-    "variants": ["take over"],
+    "variants": [
+      "take over"
+    ],
     "exampleContext": "He will ________ the team lead role starting next month.",
     "category": "Liderazgo / Roles",
     "difficultyWeight": 1
@@ -57,7 +75,9 @@
     "id": "pv_7",
     "spanish": "Buscar información (en un diccionario/Google)",
     "phrasalVerb": "look up",
-    "variants": ["look up"],
+    "variants": [
+      "look up"
+    ],
     "exampleContext": "If you don't know the word, you can ________ it in the dictionary.",
     "category": "Búsqueda / Aprendizaje",
     "difficultyWeight": 1
@@ -66,7 +86,9 @@
     "id": "pv_8",
     "spanish": "Descubrir / Enterarse",
     "phrasalVerb": "find out",
-    "variants": ["find out"],
+    "variants": [
+      "find out"
+    ],
     "exampleContext": "We need to ________ what went wrong with the deployment.",
     "category": "Investigación",
     "difficultyWeight": 1
@@ -75,7 +97,10 @@
     "id": "pv_9",
     "spanish": "Cancelar (un evento o reunión)",
     "phrasalVerb": "call off",
-    "variants": ["call off", "cancel"],
+    "variants": [
+      "call off",
+      "cancel"
+    ],
     "exampleContext": "They had to ________ the call because of technical issues.",
     "category": "Planificación",
     "difficultyWeight": 1
@@ -84,9 +109,98 @@
     "id": "pv_10",
     "spanish": "Quedarse sin algo",
     "phrasalVerb": "run out of",
-    "variants": ["run out of"],
+    "variants": [
+      "run out of"
+    ],
     "exampleContext": "We are going to ________ time if we don't hurry.",
     "category": "Recursos / Tiempo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_11",
+    "spanish": "Contactar a / Comunicarse con",
+    "phrasalVerb": "reach out to",
+    "variants": [
+      "reach out to",
+      "contact",
+      "get in touch with"
+    ],
+    "exampleContext": "If you have any technical issues, feel free to ________ the support team.",
+    "category": "Comunicación / Trabajo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_12",
+    "spanish": "Discutir / Debatir (un tema)",
+    "phrasalVerb": "talk over",
+    "variants": [
+      "talk over",
+      "discuss"
+    ],
+    "exampleContext": "We need to ________ the proposal before making a final decision.",
+    "category": "Reuniones / Negociación",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_13",
+    "spanish": "Llevarse bien (con alguien)",
+    "phrasalVerb": "get along with",
+    "variants": [
+      "get along with",
+      "get on with"
+    ],
+    "exampleContext": "She is very easygoing and manages to ________ all her teammates.",
+    "category": "Relaciones / Trabajo en equipo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_14",
+    "spanish": "Depender en exceso de",
+    "phrasalVerb": "over-rely on",
+    "variants": [
+      "over-rely on",
+      "overrely on",
+      "rely too much on"
+    ],
+    "exampleContext": "It is risky to ________ legacy systems for critical financial processes.",
+    "category": "Análisis / Riesgos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_15",
+    "spanish": "Familiarizarse con / Familiarizarse",
+    "phrasalVerb": "get familiar with",
+    "variants": [
+      "get familiar with",
+      "get acquainted with",
+      "become familiar with"
+    ],
+    "exampleContext": "Take some time during your first week to ________ the company tools.",
+    "category": "Onboarding / Aprendizaje",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_16",
+    "spanish": "Trabajar en / Trabajar en ello",
+    "phrasalVerb": "work on",
+    "variants": [
+      "work on",
+      "be working on"
+    ],
+    "exampleContext": "Our engineering team is currently trying to ________ a new feature.",
+    "category": "Proyectos / Desarrollo",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_17",
+    "spanish": "Enfocarse en / Concentrarse en",
+    "phrasalVerb": "focus on",
+    "variants": [
+      "focus on",
+      "concentrate on"
+    ],
+    "exampleContext": "For this sprint, we must ________ resolving the main performance bugs.",
+    "category": "Prioridades / Estrategia",
     "difficultyWeight": 1
   }
 ]
