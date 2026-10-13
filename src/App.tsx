@@ -23,6 +23,11 @@ import VocabularyJackpot from './components/VocabularyJackpot'
 import { VocabularyConfigModal } from './components/VocabularyConfigModal'
 import { useVocabulary } from './hooks/useVocabulary'
 import { nextWeight as nextVocabWeight } from './lib/vocabulary'
+import OrdersRequestsJackpot from './components/OrdersRequestsJackpot'
+import { OrdersRequestsConfigModal } from './components/OrdersRequestsConfigModal'
+import { useOrdersRequests } from './hooks/useOrdersRequests'
+import { nextWeight as nextOrWeight } from './lib/ordersRequests'
+import { loadStats, saveStats, type AchievementStats } from './lib/stats'
 
 /* -------------------------------------------------------------------------- */
 /*                         Bloque de ayuda del Reel 4                          */
@@ -91,6 +96,15 @@ export default function App() {
     resetStats: resetVocabStats,
     resetToDefault: resetVocabDefault,
   } = useVocabulary()
+  const {
+    items: orItems,
+    isCustom: orIsCustom,
+    storageAvailable: orStorageAvailable,
+    updateItems: updateOrItems,
+    replaceAll: replaceOrAll,
+    resetStats: resetOrStats,
+    resetToDefault: resetOrDefault,
+  } = useOrdersRequests()
   const { combo, reels, spinning, spinToken, spin } = useSlotMachine(data)
 
   const [answer, setAnswer] = useState('')
@@ -102,8 +116,13 @@ export default function App() {
   const [chatConfigOpen, setChatConfigOpen] = useState(false)
   const [phrasalConfigOpen, setPhrasalConfigOpen] = useState(false)
   const [vocabConfigOpen, setVocabConfigOpen] = useState(false)
-  const [solved, setSolved] = useState(0)
-  const [misses, setMisses] = useState(0)
+  const [orConfigOpen, setOrConfigOpen] = useState(false)
+  const [stats, setStats] = useState<AchievementStats>(() => loadStats())
+  const solved = stats.solved
+  const misses = stats.misses
+  useEffect(() => {
+    saveStats(stats)
+  }, [stats])
   const [isPrimaryValid, setIsPrimaryValid] = useState(false)
   const [currentView, setCurrentView] = useState('jackpot')
   const [reportedSpeechInput, setReportedSpeechInput] = useState('')
@@ -112,8 +131,10 @@ export default function App() {
 
   // Contador global: lo alimentan todas las secciones.
   const recordResult = useCallback((correct: boolean) => {
-    setSolved((n) => (correct ? n + 1 : n))
-    setMisses((n) => (correct ? n : n + 1))
+    setStats((s) => ({
+      solved: s.solved + (correct ? 1 : 0),
+      misses: s.misses + (correct ? 0 : 1),
+    }))
   }, [])
 
   const check = useCallback(() => {
@@ -254,6 +275,13 @@ export default function App() {
           >
             Vocabulary
           </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('orders')}
+            className={currentView === 'orders' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Orders &amp; Requests
+          </button>
         </div>
 
         {currentView === 'conditionals' && (
@@ -306,6 +334,21 @@ export default function App() {
               recordResult(correct)
             }}
             onOpenConfig={() => setVocabConfigOpen(true)}
+          />
+        )}
+
+        {currentView === 'orders' && (
+          <OrdersRequestsJackpot
+            items={orItems}
+            onResult={(id, correct) => {
+              updateOrItems((list) =>
+                list.map((p) =>
+                  p.id === id ? { ...p, difficultyWeight: nextOrWeight(p.difficultyWeight, correct) } : p,
+                ),
+              )
+              recordResult(correct)
+            }}
+            onOpenConfig={() => setOrConfigOpen(true)}
           />
         )}
 
@@ -531,6 +574,18 @@ export default function App() {
         onResetDefault={resetVocabDefault}
         isCustom={vocabIsCustom}
         storageAvailable={vocabStorageAvailable}
+      />
+
+      <OrdersRequestsConfigModal
+        open={orConfigOpen}
+        onClose={() => setOrConfigOpen(false)}
+        items={orItems}
+        onChange={updateOrItems}
+        onReplaceAll={replaceOrAll}
+        onResetStats={resetOrStats}
+        onResetDefault={resetOrDefault}
+        isCustom={orIsCustom}
+        storageAvailable={orStorageAvailable}
       />
     </div>
   )

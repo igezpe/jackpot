@@ -1,0 +1,79 @@
+[
+  {
+    "id": "or_1",
+    "directSentence": "Send me the report before lunch",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to send him the report before lunch",
+      "to send him the report before lunch"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_2",
+    "directSentence": "Please don't change the file",
+    "introContext": "John asked me...",
+    "expectedVariants": [
+      "John asked me not to change the file",
+      "not to change the file"
+    ],
+    "category": "Request [-]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_3",
+    "directSentence": "Call the client this afternoon",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to call the client that afternoon",
+      "to call the client that afternoon"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_4",
+    "directSentence": "Don't mention the problem during the first part of the meeting",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me not to mention the problem during the first part of the meeting",
+      "not to mention the problem during the first part of the meeting"
+    ],
+    "category": "Order [-]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_5",
+    "directSentence": "Please send me the latest version",
+    "introContext": "John asked me...",
+    "expectedVariants": [
+      "John asked me to send him the latest version",
+      "to send him the latest version"
+    ],
+    "category": "Request [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_6",
+    "directSentence": "Don't restart the server",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me not to restart the server",
+      "not to restart the server"
+    ],
+    "category": "Order [-]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_7",
+    "directSentence": "Ask James to join the call",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to ask James to join the call",
+      "to ask James to join the call"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  }
+]
