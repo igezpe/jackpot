@@ -114,3 +114,12 @@ export function TrophyIcon(props: IconProps) {
     </svg>
   )
 }
+
+export function CardsIcon(props: IconProps) {
+  return (
+    <svg {...base} {...props}>
+      <rect x="9.5" y="3" width="10.5" height="15" rx="2.2" />
+      <path d="M6.4 6.2A2.2 2.2 0 0 0 4.4 8.3l-.3 9.5a2.2 2.2 0 0 0 2.1 2.3l8.6.3" />
+    </svg>
+  )
+}

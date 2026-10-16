@@ -1,13 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { ChatPhrase, ChatValidationResult } from '../lib/workplaceChat'
-import { CHAT_CATEGORIES, validateChatAnswer, weightedPick } from '../lib/workplaceChat'
-import { Reel } from './Reel'
+import { validateChatAnswer, weightedPick } from '../lib/workplaceChat'
+import { PlayingCard } from './PlayingCard'
 import { WorkplaceChatFeedback } from './WorkplaceChatFeedback'
-import { DiceIcon, GearIcon } from './icons'
-
-const REEL_DURATION_MS = 1150
-const REEL_STAGGER_MS = 180
-const TOTAL_SPIN_MS = REEL_STAGGER_MS + REEL_DURATION_MS + 200
+import { CardsIcon, GearIcon } from './icons'
 
 interface WorkplaceChatProps {
   phrases: ChatPhrase[]
@@ -16,56 +12,46 @@ interface WorkplaceChatProps {
 }
 
 /**
- * Sección «Workplace Chat»: un tragamonedas que propone una frase en español
- * (con su tono) y el usuario escribe cómo decirlo en inglés.
+ * Sección «Workplace Chat»: se saca una carta boca abajo del mazo, se da vuelta
+ * con un clic y aparece la frase en español (con su tono) para traducir.
  */
 const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) => {
   const [combo, setCombo] = useState<ChatPhrase>(() => weightedPick(phrases))
-  const [pending, setPending] = useState<ChatPhrase | null>(null)
-  const [spinning, setSpinning] = useState(false)
-  const [spinToken, setSpinToken] = useState(0)
+  const [flipped, setFlipped] = useState(false)
   const [answer, setAnswer] = useState('')
   const [result, setResult] = useState<ChatValidationResult | null>(null)
   const [showVariants, setShowVariants] = useState(false)
   const [attempt, setAttempt] = useState(0)
-  const [hasSpun, setHasSpun] = useState(false)
 
-  const timer = useRef<number | null>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const cardRef = useRef<HTMLButtonElement>(null)
+  const drawRef = useRef<HTMLButtonElement>(null)
 
   // Si la config cambia y el combo ya no existe, se recalcula durante el render.
   const stillValid = phrases.some((p) => p.id === combo.id)
   if (!stillValid && phrases.length > 0) setCombo(weightedPick(phrases))
 
-  useEffect(
-    () => () => {
-      if (timer.current !== null) window.clearTimeout(timer.current)
-    },
-    [],
-  )
-
-  // Al terminar la tirada, llevar el foco al cuadro de texto.
+  // Al dar vuelta la carta, llevar el foco al cuadro de texto.
   useEffect(() => {
-    if (hasSpun && !spinning) inputRef.current?.focus()
-  }, [hasSpun, spinning])
+    if (flipped) inputRef.current?.focus()
+  }, [flipped])
 
-  const spin = useCallback(() => {
-    if (timer.current !== null || phrases.length === 0) return
-    const next = weightedPick(phrases)
-    setPending(next)
-    setSpinning(true)
-    setSpinToken((n) => n + 1)
+  const flip = useCallback(() => setFlipped((v) => !v), [])
+
+  /** Saca una carta nueva, boca abajo, y limpia el intento anterior. */
+  const drawCard = useCallback(() => {
+    if (phrases.length === 0) return
+    // Evita repetir la carta inmediatamente anterior (el azar ponderado puede
+    // volver a elegirla, sobre todo si se falló y su peso subió).
+    const pool = phrases.length > 1 ? phrases.filter((p) => p.id !== combo.id) : phrases
+    setCombo(weightedPick(pool))
+    setFlipped(false)
+    setAnswer('')
     setResult(null)
     setShowVariants(false)
-    setAnswer('')
-    setHasSpun(true)
-    timer.current = window.setTimeout(() => {
-      timer.current = null
-      setSpinning(false)
-      setCombo(next)
-      setPending(null)
-    }, TOTAL_SPIN_MS)
-  }, [phrases])
+    // Foco en la carta nueva: Enter la voltea y el foco pasa al input.
+    requestAnimationFrame(() => cardRef.current?.focus())
+  }, [phrases, combo.id])
 
   const check = useCallback(() => {
     if (answer.trim().length === 0) return
@@ -74,12 +60,14 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
     setAttempt((n) => n + 1)
     setShowVariants(false)
     onResult(combo.id, outcome.isValid)
+    // Correcta → foco en «Sacar otra carta»; incorrecta → vuelve al input.
+    requestAnimationFrame(() => {
+      if (outcome.isValid) drawRef.current?.focus()
+      else inputRef.current?.focus()
+    })
   }, [answer, combo, onResult])
 
-  const next = pending ?? combo
-  const phraseItems = phrases.map((p) => p.spanish)
-  const categoryItems = Array.from(new Set([...phrases.map((p) => p.category), ...CHAT_CATEGORIES]))
-  const canValidate = !spinning && answer.trim().length > 0
+  const canValidate = flipped && answer.trim().length > 0
 
   return (
     <div className="panel relative mt-6 overflow-hidden p-4 sm:p-6">
@@ -91,8 +79,8 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
             Workplace Chat
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-slate-400">
-            Traduce al inglés como lo dirías en Slack, Teams o un email. Las frases que más
-            fallás reaparecen más seguido.
+            Sacá una carta y traducila al inglés como lo dirías en Slack, Teams o un email. Las
+            frases que más fallás reaparecen más seguido.
           </p>
         </div>
         <button
@@ -106,57 +94,64 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
         </button>
       </div>
 
-      {/* Máquina: frase (ES) + tono */}
-      <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:gap-4">
-        <div className="sm:col-span-2">
-          <Reel
-            index={1}
-            title="Frase en español"
-            items={phraseItems}
-            current={combo.spanish}
-            target={next.spanish}
-            spinning={spinning}
-            spinToken={spinToken}
-            delay={0}
-            accentClass="border-gold-400/40"
+      {/* Mesa: mazo de cartas */}
+      <div className="felt mx-auto mt-5 w-full max-w-[22rem] px-4 pt-8 pb-6">
+        <div className="relative mx-auto w-full max-w-[17rem]">
+          {/* Cartas apiladas detrás del mazo */}
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 -translate-y-3 scale-[0.96] rounded-3xl border-[3px] border-white/55 bg-[#540915]/80"
           />
-        </div>
-        <Reel
-          index={2}
-          title="Tono / contexto"
-          items={categoryItems}
-          current={combo.category}
-          target={next.category}
-          spinning={spinning}
-          spinToken={spinToken}
-          delay={REEL_STAGGER_MS}
-          accentClass="border-grape-500/40"
-        />
-      </div>
+          <span
+            aria-hidden="true"
+            className="absolute inset-0 -translate-y-1.5 scale-[0.98] rounded-3xl border-[3px] border-white/70 bg-[#7c0f20]/85"
+          />
 
-      <div className="mt-5 flex justify-center">
-        <button
-          type="button"
-          onClick={spin}
-          disabled={spinning}
-          className={`font-display group relative inline-flex items-center gap-3 rounded-2xl px-10 py-4 text-lg font-extrabold tracking-[0.15em] uppercase transition ${
-            spinning
-              ? 'cursor-wait border border-white/10 bg-white/5 text-slate-500'
-              : 'animate-pulse-ring bg-gradient-to-b from-gold-300 via-gold-400 to-gold-600 text-night-950 shadow-xl shadow-gold-500/30 hover:from-gold-200 hover:via-gold-300 hover:to-gold-500 active:translate-y-px'
-          }`}
-        >
-          {spinning ? (
-            <>
-              <span className="size-4 animate-spin rounded-full border-2 border-slate-500 border-t-transparent" />
-              Girando
-            </>
-          ) : (
-            <>
-              <DiceIcon className="size-6 transition group-hover:rotate-12" />
-              Tirar
-            </>
-          )}
-        </button>
+          {/* key por id: al sacar carta nueva se reejecuta la animación de reparto */}
+          <div key={combo.id} className="animate-deal relative">
+            <PlayingCard
+              flipped={flipped}
+              onFlip={flip}
+              label="Frase de Workplace Chat"
+              suit="♠"
+              buttonRef={cardRef}
+            >
+              <span className="flex h-full flex-col">
+                <span className="flex items-center justify-between px-5 pt-5">
+                  <span className="rounded-full bg-[#b3122b] px-3 py-1 text-[0.6rem] font-bold tracking-[0.16em] text-white uppercase">
+                    {combo.category}
+                  </span>
+                  <span className="font-display text-[0.62rem] font-bold tracking-[0.18em] text-night-800/50 uppercase">
+                    Workplace Chat
+                  </span>
+                </span>
+                <span className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
+                  <span className="text-[0.62rem] font-bold tracking-[0.22em] text-night-800/55 uppercase">
+                    Traducí al inglés
+                  </span>
+                  <span className="font-display text-xl leading-snug font-bold text-night-900 sm:text-2xl">
+                    {combo.spanish}
+                  </span>
+                </span>
+                <span className="px-5 pb-5 text-center text-[0.62rem] font-medium text-night-800/50">
+                  Escribí tu respuesta abajo
+                </span>
+              </span>
+            </PlayingCard>
+          </div>
+        </div>
+
+        <div className="mt-5 flex justify-center">
+          <button
+            type="button"
+            onClick={drawCard}
+            ref={drawRef}
+            className="font-display group inline-flex items-center gap-3 rounded-2xl border border-gold-400/40 bg-night-950/40 px-6 py-3 text-sm font-extrabold tracking-[0.12em] text-gold-200 uppercase transition hover:border-gold-300/70 hover:bg-night-950/60 hover:text-gold-100 active:translate-y-px"
+          >
+            <CardsIcon className="size-5 transition group-hover:-rotate-6" />
+            Sacar otra carta
+          </button>
+        </div>
       </div>
 
       {/* Respuesta */}
@@ -165,7 +160,13 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
           Tu respuesta en inglés
         </label>
         <p className="mt-1 text-xs text-slate-500">
-          Tono: <span className="text-grape-400">{combo.category}</span>
+          {flipped ? (
+            <>
+              Tono: <span className="text-grape-400">{combo.category}</span>
+            </>
+          ) : (
+            'Dale vuelta a la carta para ver la frase.'
+          )}
         </p>
         <div className="mt-2">
           <input
@@ -179,8 +180,8 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
                 if (canValidate) check()
               }
             }}
-            placeholder="Escribe cómo lo dirías…"
-            disabled={spinning}
+            placeholder={flipped ? 'Escribe cómo lo dirías…' : 'Primero girá la carta'}
+            disabled={!flipped}
           />
         </div>
 
@@ -193,13 +194,15 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
           >
             COMPROBAR
           </button>
-          <button
-            type="button"
-            onClick={() => setShowVariants((v) => !v)}
-            className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-gold-400/50 hover:text-gold-300"
-          >
-            {showVariants ? 'Ocultar respuestas' : 'Ver respuestas'}
-          </button>
+          {flipped && (
+            <button
+              type="button"
+              onClick={() => setShowVariants((v) => !v)}
+              className="rounded-xl border border-white/15 bg-white/5 px-3 py-2 text-sm text-slate-200 transition hover:border-gold-400/50 hover:text-gold-300"
+            >
+              {showVariants ? 'Ocultar respuestas' : 'Ver respuestas'}
+            </button>
+          )}
           <span className="text-xs text-slate-500">
             Peso/dificultad: <span className="font-mono text-gold-300">{combo.difficultyWeight}</span>
           </span>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { TENSE_INFO } from './lib/grammar'
 import { useReelsData } from './hooks/useReelsData'
 import { useConditionalsData } from './hooks/useConditionalsData'
@@ -123,6 +123,8 @@ export default function App() {
     saveStats(stats)
   }, [stats])
   const [currentView, setCurrentView] = useState('jackpot')
+  const answerInputRef = useRef<HTMLInputElement>(null)
+  const grammarSpinRef = useRef<HTMLButtonElement>(null)
 
   // Contador global: lo alimentan todas las secciones.
   const recordResult = useCallback((correct: boolean) => {
@@ -138,6 +140,11 @@ export default function App() {
     setAttempt((n) => n + 1)
     setShowExample(false)
     recordResult(outcome.valid)
+    // Correcta → foco en «Tirar»; incorrecta → se queda en el input.
+    requestAnimationFrame(() => {
+      if (outcome.valid) grammarSpinRef.current?.focus()
+      else answerInputRef.current?.focus()
+    })
   }, [answer, combo, data.subjects, recordResult])
 
   /* Tirar limpia el intento anterior: se hace aquí y no en un efecto para
@@ -149,8 +156,9 @@ export default function App() {
     spin()
   }, [spin])
 
-  /* Atajo de teclado: espacio = tirar, Enter = comprobar. */
+  /* Atajo de teclado: espacio = tirar (solo en el Jackpot gramatical). */
   useEffect(() => {
+    if (currentView !== 'jackpot') return
     const onKey = (event: KeyboardEvent) => {
       const target = event.target as HTMLElement | null
       const typing = target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA'
@@ -161,7 +169,7 @@ export default function App() {
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [spinAndReset, spinning])
+  }, [spinAndReset, spinning, currentView])
 
   /* Estable para que el modal de configuración no registre sus listeners
      de teclado en cada render mientras editas los rodillos. */
@@ -218,7 +226,7 @@ export default function App() {
             onClick={() => setCurrentView('jackpot')}
             className={currentView === 'jackpot' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
           >
-            Jackpot Gramatical
+            Gramatical Jackpot
           </button>
           <button
             type="button"
@@ -390,6 +398,7 @@ export default function App() {
             <button
               type="button"
               onClick={spinAndReset}
+              ref={grammarSpinRef}
               disabled={spinning}
               className={`font-display group relative inline-flex items-center gap-3 rounded-2xl px-10 py-4 text-lg font-extrabold tracking-[0.15em] uppercase transition ${
                 spinning
@@ -422,6 +431,7 @@ export default function App() {
           showExample={showExample}
           onToggleExample={() => setShowExample((v) => !v)}
           placeholder={placeholder}
+          inputRef={answerInputRef}
           example={example}
         />
 

@@ -23,6 +23,7 @@ const ConditionalJackpot = ({ data, onOpenConfig, onResult }: ConditionalJackpot
   const [showExample, setShowExample] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const inputRef = useRef<HTMLInputElement>(null)
+  const spinRef = useRef<HTMLButtonElement>(null)
   const [hasSpun, setHasSpun] = useState(false)
 
   const handleSpin = useCallback(() => {
@@ -40,6 +41,11 @@ const ConditionalJackpot = ({ data, onOpenConfig, onResult }: ConditionalJackpot
     setAttempt((n) => n + 1)
     setShowExample(false)
     onResult(outcome.isValid)
+    // Correcta → foco en «Tirar»; incorrecta → se queda en el input.
+    requestAnimationFrame(() => {
+      if (outcome.isValid) spinRef.current?.focus()
+      else inputRef.current?.focus()
+    })
   }, [answer, combo, onResult])
 
   // Al terminar la tirada, llevar el foco al cuadro de texto.
@@ -98,6 +104,7 @@ const ConditionalJackpot = ({ data, onOpenConfig, onResult }: ConditionalJackpot
         <button
           type="button"
           onClick={handleSpin}
+          ref={spinRef}
           disabled={spinning}
           className={`font-display group relative inline-flex items-center gap-3 rounded-2xl px-10 py-4 text-lg font-extrabold tracking-[0.15em] uppercase transition ${
             spinning

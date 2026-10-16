@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import type { RefObject } from 'react'
 import type { ValidationResult } from '../lib/validator'
 import { BulbIcon } from './icons'
 import { Feedback } from './Feedback'
@@ -17,6 +18,8 @@ interface AnswerPanelProps {
   placeholder: string
   /** Oración modelo de la combinación actual. */
   example: string
+  /** Ref al input, para poder enfocarlo desde fuera (p. ej. al fallar). */
+  inputRef?: RefObject<HTMLInputElement | null>
 }
 
 export function AnswerPanel({
@@ -30,13 +33,15 @@ export function AnswerPanel({
   onToggleExample,
   placeholder,
   example,
+  inputRef,
 }: AnswerPanelProps) {
-  const inputRef = useRef<HTMLInputElement>(null)
+  const localRef = useRef<HTMLInputElement>(null)
+  const fieldRef = inputRef ?? localRef
 
   // Al terminar la tirada el foco va directo al campo: se puede responder ya.
   useEffect(() => {
-    if (!disabled) inputRef.current?.focus()
-  }, [disabled])
+    if (!disabled) fieldRef.current?.focus()
+  }, [disabled, fieldRef])
 
   return (
     <div className="panel mt-6 p-5 sm:p-6">
@@ -50,7 +55,7 @@ export function AnswerPanel({
       <div className="mt-3 flex flex-col gap-3 sm:flex-row">
         <input
           id="answer"
-          ref={inputRef}
+          ref={fieldRef}
           type="text"
           inputMode="text"
           autoComplete="off"

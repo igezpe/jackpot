@@ -3,36 +3,33 @@
 Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo que ya no aporte.
 
 ## Estado actual
-- **Jackpot Gramatical**: funcionando. `npm run check` → 756/756.
-- **Reported Speech** (paso 2 tras acertar): funciona (input prellenado `"Maria said that "`, validación y card de feedback). La lógica vive en `src/lib/reportedSpeech.ts`.
-- **Conditionals Jackpot**: pestaña nueva con 5 rodillos (Usage → Subject → Condition → Result → Polarity), giro encadenado, validación de las 4 estructuras, card verde/roja y **pantalla de configuración** con exportar/importar JSON.
-- Animación de condicionales: reutiliza `Reel` + hook `useConditionalSlotMachine` (misma cinta que el Jackpot Gramatical).
-- Auto-guardado con debounce (500 ms) en `useReelsData`, `useConditionalsData`, `useWorkplaceChat`, `usePhrasalVerbs` y `useVocabulary`.
-- **Workplace Chat**: pestaña (Slack/Teams/Email). 2 rodillos (frase ES + tono); validación tolerante por variantes; repetición ponderada; modal de config (CRUD, export/import, Reset Stats).
-- **Phrasal Verbs**: pestaña con 2 rodillos (significado ES + categoría) y oración de contexto con hueco; se escribe el phrasal verb; validación tolerante (variantes + misma partícula con verbo conjugado); repetición ponderada; modal de config (CRUD, export/import, Reset Stats). Clave `jackpot.phrasalVerbs.v1`.
-- **Vocabulary**: pestaña con 2 rodillos (término ES + categoría); se escribe la traducción; validación tolerante (principal + variantes/plurales); repetición ponderada; modal de config (CRUD, export/import, Reset Stats). Clave `jackpot.vocabulary.v1`.
-- Normalización de respuestas compartida en `src/lib/answerText.ts` (expande contracciones: `I'll` = `I will`). La usan Workplace Chat, Phrasal Verbs y Vocabulary.
-- **Orders & Requests**: pestaña para transformar órdenes/peticiones directas a Reported Speech. 2 rodillos (oración directa + verbo introductorio), badge de tipo; validación tolerante (prefijo completo o cláusula sola, sin aceptar otro introductor); repetición ponderada; modal de config (CRUD, export/import JSON, Reset Stats). Clave `jackpot.ordersRequests.v1`.
-- Contador superior derecho (`solved / total`): lo alimenta `recordResult(correcto)` en `App.tsx`; lo usan las 5 secciones (gramática, condicionales, workplace chat, phrasal verbs y vocabulario). Reported Speech (paso 2 de gramática) NO lo actualiza. **Persiste** en localStorage (`jackpot.stats.v1`).
-- **PWA**: `public/manifest.webmanifest` + `public/sw.js` (propios, sin dependencias) + íconos en `public/icons/`. Registro del SW en `src/main.tsx` solo en `PROD`. Requiere HTTPS para instalarse/offline. Script `npm run build:web` (= `vite build`, evita el `tsc` roto).
+- **6 pestañas**: Gramatical Jackpot, Conditionals Jackpot, Workplace Chat, Phrasal Verbs, Vocabulary, Orders & Requests.
+- **Gramatical Jackpot** (antes «Jackpot Gramatical»): 4 rodillos (`Reel`). `npm run check` → 4536/4536.
+- **Conditionals Jackpot**: 5 rodillos encadenados (`useConditionalSlotMachine`), valida las 4 estructuras; modal de config con export/import JSON.
+- **Mazo de cartas** (Workplace Chat, Phrasal Verbs, Vocabulary, Orders & Requests): cada ítem tiene **una sola opción**, así que NO usan rodillos. Componente genérico `src/components/PlayingCard.tsx` (dorso rojo/negro, flip 3D con clic o Enter) sobre paño verde (`@utility felt`). Botón «Sacar otra carta» reparte boca abajo y **nunca repite la anterior**. Datos: `phrasalVerbsData.json` (pv_*) y `workplaceChatData.json` (chat_*) ampliados con más ítems.
+- **Flujo por teclado** (6 secciones): respuesta **correcta** → foco a «Tirar»/«Sacar otra carta»; **incorrecta** → foco al input. Al repartir, el foco va a la carta; Enter la voltea y pasa el foco al input.
+- **Reported Speech**: removido de Gramatical Jackpot (commit `e73351e`). `src/lib/reportedSpeech.ts` queda como código muerto, pendiente de una sección aparte.
+- Auto-guardado con debounce (500 ms) vía `useReelsData`, `useConditionalsData`, `useWorkplaceChat`, `usePhrasalVerbs`, `useVocabulary`, `useOrdersRequests`.
+- Validación tolerante por variantes en las 4 secciones de cartas; normalización compartida en `src/lib/answerText.ts` (expande contracciones: `I'll` = `I will`).
+- Contador superior derecho (`solved / total`): lo alimenta `recordResult(correcto)` en `App.tsx`; lo usan las **6** secciones. **Persiste** en localStorage (`jackpot.stats.v1`).
+- **PWA**: `public/manifest.webmanifest` + `public/sw.js` + íconos en `public/icons/`. SW solo en `PROD`. Script `npm run build:web` (= `vite build`, evita el `tsc` roto).
 
 ## Decisiones (y porqué)
-- Datos de usuario en `localStorage` con **prioridad sobre el JSON**: claves `jackpot.reelsData.v1` y `jackpot.conditionalsData.v1`. "Restablecer" las borra.
-- Condicionales: el tipo (zero/first/second/third) guía la coherencia; R3 filtra por `allowedSubjects`/`allowedConditions`, R4 por `compatibleResults`.
-- Workplace Chat: clave `jackpot.workplaceChat.v1`; las variantes que terminan en `...` se aceptan por prefijo (una contiene a la otra). El editor no permite borrar la última frase.
-- Validación de condicionales: tolera escribir o no `"If"`; exige concordancia sujeto-verbo, participio en third, forma base tras will/would, y polaridad `[+/+]` o `[-/-]` **por cláusula**.
-- `buildConditionalSentence` debe pasar `validateConditionalAnswer` (probado con 5000 giros). Si editas verbos/estructura, revisa ambos.
+- Datos de usuario en `localStorage` con **prioridad sobre el JSON**; claves `jackpot.<seccion>.v1`. "Restablecer" las borra.
+- `Reel` se mantiene **solo** para las secciones que combinan opciones independientes (Gramatical y Conditionals). No tocar su animación.
+- Cartas: la info que antes era el 2.º rodillo (categoría/contexto/tipo) vive **dentro de la cara** de la carta.
+- Condicionales: el tipo (zero/first/second/third) guía la coherencia (filtros por `allowedSubjects`/`allowedConditions`/`compatibleResults`) y `buildConditionalSentence` debe pasar `validateConditionalAnswer`.
+- El atajo global de `Espacio` (tirar) sólo actúa en `currentView === 'jackpot'`.
 
 ## Aprendizajes y errores a evitar
-- JSX: no poner un ternario suelto tras `className`; usar template literal `` className={`... ${cond ? 'a' : 'b'}`} ``.
-- `useRef(null)` sin tipo rompe asignaciones numéricas → usar `useRef<number | null>(null)`.
-- `src/lib/reportedSpeech.ts` tiene **errores de tipos preexistentes** que hacen fallar `npm run build` (no afectan al dev server). No modificar su validación sin pedido explícito.
-- Al automatizar ediciones, verificar el patrón exacto (comillas/espacios); un patrón mal escapado no coincide y deja el bug.
+- `PlayingCard` expone `buttonRef` y `AnswerPanel` expone `inputRef` para manejar el foco desde el padre.
+- Al repartir carta el foco se mueve en `requestAnimationFrame`: la `key={combo.id}` remonta el botón.
+- `src/lib/reportedSpeech.ts` tiene **errores de tipos preexistentes** que hacen fallar `npm run build`. No modificar sin pedido explícito.
+- JSX: no poner un ternario suelto tras `className`; usar template literal.
+- `useRef(null)` sin tipo rompe asignaciones numéricas → `useRef<number | null>(null)`.
+- Al automatizar ediciones, verificar el patrón exacto; un patrón mal escapado no coincide y deja el bug.
 
 ## Próximos pasos
-- Deploy de la PWA a un host con HTTPS (Netlify/Vercel/GitHub Pages) para instalarla en Android.
-- Prueba visual final de Vocabulary (tirada, foco en input, ponderación).
-- Prueba visual final de Phrasal Verbs (tirada, contexto, foco en input).
-- Prueba visual final del Workplace Chat (tirada, foco en el input, ponderación).
-- Corregir los errores de tipos de `reportedSpeech.ts` para dejar `npm run build` en verde (pedir OK antes).
-- Prueba visual final en navegador de la animación y la config de condicionales.
+- Deploy de la PWA a un host con HTTPS (Netlify/Vercel/GitHub Pages).
+- Decidir qué hacer con `reportedSpeech.ts` (borrar o reutilizar en sección aparte) para dejar `npm run build` en verde.
+- Arquitectura frontend + backend (login, sync de progreso, contenido centralizado).
