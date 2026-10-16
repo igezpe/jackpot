@@ -202,5 +202,38 @@
     "exampleContext": "For this sprint, we must ________ resolving the main performance bugs.",
     "category": "Prioridades / Estrategia",
     "difficultyWeight": 1
+  },
+  {
+    "id": "pv_18",
+    "spanish": "Derribar / Descolgar / tomar nota",
+    "phrasalVerb": "take down",
+    "variants": [
+      "take down"
+    ],
+    "exampleContext": "Rachel has to ________ the Christmas lights.",
+    "category": "Relaciones",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_19",
+    "spanish": "Caerse de / Desprenderse de",
+    "phrasalVerb": "fall of",
+    "variants": [
+      "fall of"
+    ],
+    "exampleContext": "The cat is going to ________ the balcony.",
+    "category": "Riesgos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "pv_20",
+    "spanish": "Tener (algo) colocado / Colgado / Instalado",
+    "phrasalVerb": "have up",
+    "variants": [
+      "have up"
+    ],
+    "exampleContext": "Do you still ________ your christmas lights ________?.",
+    "category": "Prioridades",
+    "difficultyWeight": 1
   }
 ]

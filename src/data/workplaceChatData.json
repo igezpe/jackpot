@@ -89,5 +89,40 @@
     "englishVariants": ["I will loop you in that email", "I'll loop you in on that email", "I will loop you in on that thread"],
     "category": "Email / Chat",
     "difficultyWeight": 1
+  },
+  {
+    "id": "chat_14",
+    "spanish": "Le voy a enviar un mensaje a nick",
+    "englishVariants": ["I will drop a message to Nick", "I'll drop a message to Nick"],
+    "category": "Email / Chat",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_15",
+    "spanish": "Lo siento, estoy demorado",
+    "englishVariants": ["Sorry, I am running late", "Sorry, I'm running late"],
+    "category": "Email / Chat",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_16",
+    "spanish": "Podrías repetir?",
+    "englishVariants": ["Can you say that again, please?", "Could you say that again, please?"],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_17",
+    "spanish": "Se está cortando tu micrófono",
+    "englishVariants": ["It seems like your mic isn't working", "You are breaking up a little bit"],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_18",
+    "spanish": "Parafrasear",
+    "englishVariants": ["So, just to make sure, you mean", "Just to clarify","correct me if I'm wrong"],
+    "category": "call",
+    "difficultyWeight": 1
   }
 ]
