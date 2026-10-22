@@ -46,7 +46,7 @@ export function VocabularyEditor({ items, onChange }: VocabularyEditorProps) {
   return (
     <EditorSection
       title="Vocabulario"
-      description="El término en español y su traducción principal. Las variantes y plurales se aceptan al validar."
+      description="La carta muestra una imagen/pictograma como pista principal y el término en español en pequeño. Las variantes y plurales se aceptan al validar."
       count={items.length}
       onAdd={add}
       addLabel="+ Término"
@@ -90,6 +90,24 @@ export function VocabularyEditor({ items, onChange }: VocabularyEditorProps) {
                 onChange={(e) => update(index, { variants: textToVariants(e.target.value) })}
               />
             </Field>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <Field label="Emoji / pictograma" hint="Se muestra grande en la carta">
+                <input
+                  className="field text-lg"
+                  value={item.emoji ?? ''}
+                  placeholder="🦵"
+                  onChange={(e) => update(index, { emoji: e.target.value.trim() || undefined })}
+                />
+              </Field>
+              <Field label="Imagen (URL o ruta)" hint="Si existe, reemplaza al emoji">
+                <input
+                  className="field font-mono text-xs"
+                  value={item.image ?? ''}
+                  placeholder="https://… o /images/vocabulary/elbow.png"
+                  onChange={(e) => update(index, { image: e.target.value.trim() || undefined })}
+                />
+              </Field>
+            </div>
             <div className="flex items-center gap-2">
               <span className="rounded-md bg-white/5 px-2 py-1 text-[0.65rem] font-semibold text-slate-400">
                 id: {item.id}

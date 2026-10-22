@@ -8,6 +8,10 @@ export interface VocabItem {
   variants: string[]
   category: string
   difficultyWeight: number
+  /** Imagen principal (URL o ruta local). Si existe, manda sobre el emoji. */
+  image?: string
+  /** Pictograma de respaldo cuando no hay imagen. */
+  emoji?: string
 }
 
 export interface VocabValidationResult {
@@ -26,6 +30,10 @@ export const VOCAB_CATEGORIES = [
   'Sustantivos / Personas',
   'Cuerpo - Externo',
   'Cuerpo - Org. Internos',
+  'Ropa',
+  'Ropa interior',
+  'Calzado',
+  'Accesorios',
   'Negocios / Trabajo',
   'Tecnología',
   'Comida',

@@ -17,6 +17,11 @@ const asVariants = (value: unknown): string[] => {
   return value.map((item) => asText(item)).filter((item) => item.length > 0)
 }
 
+const asOptionalText = (value: unknown): string | undefined => {
+  const text = asText(value)
+  return text.length > 0 ? text : undefined
+}
+
 const asWeight = (value: unknown): number => {
   const n = typeof value === 'number' ? value : Number.parseFloat(String(value))
   if (!Number.isFinite(n) || n < 1) return 1
@@ -28,10 +33,33 @@ export function loadVocabulary(): VocabItem[] | null {
   try {
     const raw = window.localStorage.getItem(VOCABULARY_STORAGE_KEY)
     if (!raw) return null
-    return sanitizeVocabData(JSON.parse(raw) as unknown)
+    const stored = sanitizeVocabData(JSON.parse(raw) as unknown)
+    return stored ? withDefaultVisuals(stored) : null
   } catch {
     return null
   }
+}
+
+/** Completa imagen/emoji de los ítems guardados con los visuales por defecto (por id). */
+function withDefaultVisuals(items: VocabItem[]): VocabItem[] {
+  const byId = new Map(DEFAULT_VOCAB.map((item) => [item.id, item]))
+  const withVisuals = items.map((item) => {
+    const base = byId.get(item.id)
+    if (!base) return item
+    return {
+      ...item,
+      image: item.image ?? base.image,
+      emoji: item.emoji ?? base.emoji,
+    }
+  })
+
+  // Si el listado guardado sólo usa ids por defecto, se le agregan los ítems
+  // nuevos del JSON (p. ej. categorías recién añadidas) sin tocar los existentes.
+  if (!withVisuals.every((item) => byId.has(item.id))) return withVisuals
+
+  const present = new Set(withVisuals.map((item) => item.id))
+  const missing = DEFAULT_VOCAB.filter((item) => !present.has(item.id))
+  return missing.length > 0 ? [...withVisuals, ...missing] : withVisuals
 }
 
 export function saveVocabulary(items: VocabItem[]): boolean {
@@ -64,6 +92,8 @@ export function sanitizeVocabData(input: unknown): VocabItem[] | null {
       variants: asVariants(raw.variants),
       category: asText(raw.category, 'General'),
       difficultyWeight: asWeight(raw.difficultyWeight),
+      image: asOptionalText(raw.image),
+      emoji: asOptionalText(raw.emoji),
     }))
     .filter((p) => p.english.length > 0)
 

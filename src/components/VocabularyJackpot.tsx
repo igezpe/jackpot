@@ -22,6 +22,7 @@ const VocabularyJackpot = ({ items, onResult, onOpenConfig }: VocabularyJackpotP
   const [result, setResult] = useState<VocabValidationResult | null>(null)
   const [showAnswers, setShowAnswers] = useState(false)
   const [attempt, setAttempt] = useState(0)
+  const [imageError, setImageError] = useState<string | null>(null)
 
   const inputRef = useRef<HTMLInputElement>(null)
   const cardRef = useRef<HTMLButtonElement>(null)
@@ -46,6 +47,7 @@ const VocabularyJackpot = ({ items, onResult, onOpenConfig }: VocabularyJackpotP
     setAnswer('')
     setResult(null)
     setShowAnswers(false)
+    setImageError(null)
     // Foco en la carta nueva: Enter la voltea y el foco pasa al input.
     requestAnimationFrame(() => cardRef.current?.focus())
   }, [items, combo.id])
@@ -66,6 +68,7 @@ const VocabularyJackpot = ({ items, onResult, onOpenConfig }: VocabularyJackpotP
 
   const canValidate = flipped && answer.trim().length > 0
   const accepted = acceptedAnswers(combo)
+  const hasImage = Boolean(combo.image) && imageError !== combo.image
 
   return (
     <div className="panel relative mt-6 overflow-hidden p-4 sm:p-6">
@@ -77,8 +80,8 @@ const VocabularyJackpot = ({ items, onResult, onOpenConfig }: VocabularyJackpotP
             Vocabulary
           </h2>
           <p className="mt-1 text-sm leading-relaxed text-slate-400">
-            Sacá una carta y traducí el término al inglés. Las palabras que más fallás reaparecen
-            más seguido.
+            Sacá una carta y mirá la imagen: decí el término en inglés sin pasar por el español. Las
+            palabras que más fallás reaparecen más seguido.
           </p>
         </div>
         <button
@@ -115,13 +118,35 @@ const VocabularyJackpot = ({ items, onResult, onOpenConfig }: VocabularyJackpotP
                     Vocabulary
                   </span>
                 </span>
-                <span className="flex flex-1 flex-col items-center justify-center gap-3 px-6 text-center">
+                <span className="flex flex-1 flex-col items-center justify-center gap-2 px-5 text-center">
                   <span className="text-[0.62rem] font-bold tracking-[0.22em] text-night-800/55 uppercase">
-                    Traducí al inglés
+                    ¿Cómo se dice en inglés?
                   </span>
-                  <span className="font-display text-xl leading-snug font-bold text-night-900 sm:text-2xl">
-                    {combo.spanish}
-                  </span>
+                  {hasImage ? (
+                    <img
+                      src={combo.image}
+                      alt={combo.spanish}
+                      loading="lazy"
+                      className="max-h-32 w-full rounded-xl object-contain sm:max-h-40"
+                      onError={() => setImageError(combo.image ?? null)}
+                    />
+                  ) : combo.emoji ? (
+                    <span
+                      aria-hidden="true"
+                      className="leading-none select-none text-[4.5rem] sm:text-[5.5rem]"
+                    >
+                      {combo.emoji}
+                    </span>
+                  ) : (
+                    <span className="font-display text-xl leading-snug font-bold text-night-900 sm:text-2xl">
+                      {combo.spanish}
+                    </span>
+                  )}
+                  {(hasImage || combo.emoji) && (
+                    <span className="text-xs leading-snug font-medium text-night-800/60">
+                      {combo.spanish}
+                    </span>
+                  )}
                 </span>
                 <span className="px-5 pb-5 text-center text-[0.62rem] font-medium text-night-800/50">
                   Escribí tu respuesta abajo

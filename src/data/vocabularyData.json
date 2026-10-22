@@ -3,6 +3,7 @@
     "id": "voc_1",
     "spanish": "Para bien / Para mejor",
     "english": "for the better",
+    "emoji": "📈",
     "variants": ["for the better"],
     "category": "Expresiones fijas",
     "difficultyWeight": 1
@@ -11,6 +12,7 @@
     "id": "voc_2",
     "spanish": "Para peor",
     "english": "for the worst",
+    "emoji": "📉",
     "variants": ["for the worst"],
     "category": "Expresiones fijas",
     "difficultyWeight": 1
@@ -19,6 +21,7 @@
     "id": "voc_3",
     "spanish": "Para el bien (definitivo) / Para siempre",
     "english": "for good",
+    "emoji": "♾️",
     "variants": ["for good", "for the good"],
     "category": "Expresiones fijas",
     "difficultyWeight": 1
@@ -27,6 +30,7 @@
     "id": "voc_4",
     "spanish": "Niño / Niña (singular)",
     "english": "child",
+    "emoji": "🧒",
     "variants": ["child"],
     "category": "Sustantivos / Personas",
     "difficultyWeight": 1
@@ -35,6 +39,7 @@
     "id": "voc_5",
     "spanish": "Niños / Niñas (plural)",
     "english": "children",
+    "emoji": "👧👦",
     "variants": ["children"],
     "category": "Sustantivos / Personas",
     "difficultyWeight": 1
@@ -43,6 +48,7 @@
     "id": "voc_6",
     "spanish": "Codo",
     "english": "elbow",
+    "emoji": "💪",
     "variants": ["elbow"],
     "category": "Cuerpo - Externo",
     "difficultyWeight": 1
@@ -51,6 +57,7 @@
     "id": "voc_7",
     "spanish": "Rodilla",
     "english": "knee",
+    "emoji": "🦵",
     "variants": ["knee"],
     "category": "Cuerpo - Externo",
     "difficultyWeight": 1
@@ -59,6 +66,7 @@
     "id": "voc_8",
     "spanish": "Tobillo",
     "english": "ankle",
+    "emoji": "🦶",
     "variants": ["ankle"],
     "category": "Cuerpo - Externo",
     "difficultyWeight": 1
@@ -67,6 +75,7 @@
     "id": "voc_9",
     "spanish": "Muñeca (de la mano)",
     "english": "wrist",
+    "emoji": "✋",
     "variants": ["wrist"],
     "category": "Cuerpo - Externo",
     "difficultyWeight": 1
@@ -75,6 +84,7 @@
     "id": "voc_10",
     "spanish": "Hombro",
     "english": "shoulder",
+    "emoji": "🤷",
     "variants": ["shoulder"],
     "category": "Cuerpo - Externo",
     "difficultyWeight": 1
@@ -83,6 +93,8 @@
     "id": "voc_11",
     "spanish": "Intestino / Intestinos",
     "english": "intestine",
+    "image": "/images/vocabulary/intestine.svg",
+    "emoji": "🌀",
     "variants": ["intestine", "intestines", "gut", "bowel"],
     "category": "Cuerpo - Org. Internos",
     "difficultyWeight": 1
@@ -91,6 +103,8 @@
     "id": "voc_12",
     "spanish": "Pulmón / Pulmones",
     "english": "lung",
+    "image": "/images/vocabulary/lungs.svg",
+    "emoji": "🫁",
     "variants": ["lung", "lungs"],
     "category": "Cuerpo - Org. Internos",
     "difficultyWeight": 1
@@ -99,6 +113,8 @@
     "id": "voc_13",
     "spanish": "Hígado",
     "english": "liver",
+    "image": "/images/vocabulary/liver.svg",
+    "emoji": "🩻",
     "variants": ["liver"],
     "category": "Cuerpo - Org. Internos",
     "difficultyWeight": 1
@@ -107,6 +123,8 @@
     "id": "voc_14",
     "spanish": "Riñón / Riñones",
     "english": "kidney",
+    "image": "/images/vocabulary/kidneys.svg",
+    "emoji": "🫘",
     "variants": ["kidney", "kidneys"],
     "category": "Cuerpo - Org. Internos",
     "difficultyWeight": 1
@@ -115,8 +133,249 @@
     "id": "voc_15",
     "spanish": "Corazón",
     "english": "heart",
+    "image": "/images/vocabulary/heart-organ.svg",
+    "emoji": "❤️",
     "variants": ["heart"],
     "category": "Cuerpo - Org. Internos",
     "difficultyWeight": 1
+  },
+  {
+    "id": "voc_16",
+    "spanish": "Buzo",
+    "english": "sweatshirt",
+    "variants": [
+      "sweatshirt",
+      "hoodie",
+      "sweater",
+      "jumper"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "🧥"
+  },
+  {
+    "id": "voc_17",
+    "spanish": "Medias",
+    "english": "socks",
+    "variants": [
+      "socks",
+      "sock"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "🧦"
+  },
+  {
+    "id": "voc_18",
+    "spanish": "Calzoncillo",
+    "english": "underpants",
+    "variants": [
+      "underpants",
+      "briefs",
+      "boxers",
+      "boxer shorts",
+      "underwear"
+    ],
+    "category": "Ropa interior",
+    "difficultyWeight": 1,
+    "emoji": "🩲"
+  },
+  {
+    "id": "voc_19",
+    "spanish": "Bombacha",
+    "english": "panties",
+    "variants": [
+      "panties",
+      "knickers",
+      "underwear"
+    ],
+    "category": "Ropa interior",
+    "difficultyWeight": 1,
+    "emoji": "🩲"
+  },
+  {
+    "id": "voc_20",
+    "spanish": "Corpiño",
+    "english": "bra",
+    "variants": [
+      "bra",
+      "brassiere"
+    ],
+    "category": "Ropa interior",
+    "difficultyWeight": 1,
+    "emoji": "👙"
+  },
+  {
+    "id": "voc_21",
+    "spanish": "Bufanda",
+    "english": "scarf",
+    "variants": [
+      "scarf",
+      "scarves"
+    ],
+    "category": "Accesorios",
+    "difficultyWeight": 1,
+    "emoji": "🧣"
+  },
+  {
+    "id": "voc_22",
+    "spanish": "Musculosa",
+    "english": "tank top",
+    "variants": [
+      "tank top",
+      "tanktop",
+      "singlet",
+      "vest"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "🎽"
+  },
+  {
+    "id": "voc_23",
+    "spanish": "Remera",
+    "english": "t-shirt",
+    "variants": [
+      "t-shirt",
+      "tshirt",
+      "tee"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "👕"
+  },
+  {
+    "id": "voc_24",
+    "spanish": "Pantalón",
+    "english": "trousers",
+    "variants": [
+      "trousers",
+      "pants"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "👖"
+  },
+  {
+    "id": "voc_25",
+    "spanish": "Camisa",
+    "english": "shirt",
+    "variants": [
+      "shirt",
+      "dress shirt"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "👔"
+  },
+  {
+    "id": "voc_26",
+    "spanish": "Vestido",
+    "english": "dress",
+    "variants": [
+      "dress"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "👗"
+  },
+  {
+    "id": "voc_27",
+    "spanish": "Short",
+    "english": "shorts",
+    "variants": [
+      "shorts",
+      "short pants"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "🩳"
+  },
+  {
+    "id": "voc_28",
+    "spanish": "Zapatillas",
+    "english": "sneakers",
+    "variants": [
+      "sneakers",
+      "trainers",
+      "running shoes"
+    ],
+    "category": "Calzado",
+    "difficultyWeight": 1,
+    "emoji": "👟"
+  },
+  {
+    "id": "voc_29",
+    "spanish": "Zapatos",
+    "english": "shoes",
+    "variants": [
+      "shoes",
+      "shoe"
+    ],
+    "category": "Calzado",
+    "difficultyWeight": 1,
+    "emoji": "👞"
+  },
+  {
+    "id": "voc_30",
+    "spanish": "Botas",
+    "english": "boots",
+    "variants": [
+      "boots",
+      "boot"
+    ],
+    "category": "Calzado",
+    "difficultyWeight": 1,
+    "emoji": "👢"
+  },
+  {
+    "id": "voc_31",
+    "spanish": "Sandalias",
+    "english": "sandals",
+    "variants": [
+      "sandals",
+      "sandal"
+    ],
+    "category": "Calzado",
+    "difficultyWeight": 1,
+    "emoji": "👡"
+  },
+  {
+    "id": "voc_32",
+    "spanish": "Gorra",
+    "english": "cap",
+    "variants": [
+      "cap",
+      "baseball cap"
+    ],
+    "category": "Accesorios",
+    "difficultyWeight": 1,
+    "emoji": "🧢"
+  },
+  {
+    "id": "voc_33",
+    "spanish": "Guantes",
+    "english": "gloves",
+    "variants": [
+      "gloves",
+      "glove"
+    ],
+    "category": "Accesorios",
+    "difficultyWeight": 1,
+    "emoji": "🧤"
+  },
+  {
+    "id": "voc_34",
+    "spanish": "Traje de baño",
+    "english": "swimsuit",
+    "variants": [
+      "swimsuit",
+      "swim suit",
+      "bathing suit",
+      "swimming costume"
+    ],
+    "category": "Ropa",
+    "difficultyWeight": 1,
+    "emoji": "🩱"
   }
 ]
