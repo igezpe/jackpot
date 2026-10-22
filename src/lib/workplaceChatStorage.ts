@@ -32,10 +32,21 @@ export function loadWorkplaceChat(): ChatPhrase[] | null {
   try {
     const raw = window.localStorage.getItem(WORKPLACE_CHAT_STORAGE_KEY)
     if (!raw) return null
-    return sanitizeChatData(JSON.parse(raw) as unknown)
+    const stored = sanitizeChatData(JSON.parse(raw) as unknown)
+    return stored ? withMissingDefaults(stored) : null
   } catch {
     return null
   }
+}
+
+/** Agrega las frases nuevas del JSON si el listado guardado usa solo ids por defecto. */
+function withMissingDefaults(phrases: ChatPhrase[]): ChatPhrase[] {
+  const defaultIds = new Set(DEFAULT_CHAT_PHRASES.map((p) => p.id))
+  if (!phrases.every((p) => defaultIds.has(p.id))) return phrases
+
+  const present = new Set(phrases.map((p) => p.id))
+  const missing = DEFAULT_CHAT_PHRASES.filter((p) => !present.has(p.id))
+  return missing.length > 0 ? [...phrases, ...missing] : phrases
 }
 
 export function saveWorkplaceChat(phrases: ChatPhrase[]): boolean {

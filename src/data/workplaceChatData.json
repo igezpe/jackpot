@@ -124,5 +124,260 @@
     "englishVariants": ["So, just to make sure, you mean", "Just to clarify","correct me if I'm wrong"],
     "category": "call",
     "difficultyWeight": 1
+  },
+  {
+    "id": "chat_19",
+    "spanish": "Subirse a un auto / taxi / Uber",
+    "englishVariants": [
+      "get in",
+      "get into",
+      "get in the car",
+      "get into the car",
+      "get in the taxi",
+      "get into the taxi",
+      "get in the uber",
+      "get into the uber"
+    ],
+    "category": "Transporte",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_20",
+    "spanish": "Bajarse de un auto / taxi / Uber",
+    "englishVariants": [
+      "get out",
+      "get out of",
+      "get out of the car",
+      "get out of the taxi",
+      "get out of the uber"
+    ],
+    "category": "Transporte",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_21",
+    "spanish": "Subirse a un colectivo / tren / avión / barco / bici",
+    "englishVariants": [
+      "get on",
+      "get onto",
+      "get on the bus",
+      "get on the train",
+      "get on the plane",
+      "get on the boat",
+      "get on the bike"
+    ],
+    "category": "Transporte",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_22",
+    "spanish": "Bajarse de un colectivo / tren / avión / barco / bici",
+    "englishVariants": [
+      "get off",
+      "get off the bus",
+      "get off the train",
+      "get off the plane",
+      "get off the boat",
+      "get off the bike"
+    ],
+    "category": "Transporte",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_23",
+    "spanish": "Iniciar sesión en un software",
+    "englishVariants": [
+      "log in",
+      "sign in",
+      "log into",
+      "sign into",
+      "log in to",
+      "sign in to"
+    ],
+    "category": "Software",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_24",
+    "spanish": "Cerrar sesión en un software",
+    "englishVariants": [
+      "log out",
+      "sign out",
+      "log off",
+      "sign off"
+    ],
+    "category": "Software",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_25",
+    "spanish": "Ingresar a una app / servidor / consola",
+    "englishVariants": [
+      "log into",
+      "log in to",
+      "sign into",
+      "access",
+      "access the app",
+      "access the server",
+      "access the console"
+    ],
+    "category": "Software",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_26",
+    "spanish": "Salir / desconectarse de una app / servidor / consola",
+    "englishVariants": [
+      "exit",
+      "disconnect",
+      "log out",
+      "sign out",
+      "exit the app",
+      "disconnect from the server"
+    ],
+    "category": "Software",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_27",
+    "spanish": "Ingresar datos",
+    "englishVariants": [
+      "enter",
+      "input",
+      "enter data",
+      "input data",
+      "enter the data",
+      "input the data"
+    ],
+    "category": "Software",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_28",
+    "spanish": "Unirse a una reunión / llamada",
+    "englishVariants": [
+      "join",
+      "join the meeting",
+      "join the call",
+      "hop on",
+      "hop on the call",
+      "hop on the meeting"
+    ],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_29",
+    "spanish": "Salir de una reunión / llamada",
+    "englishVariants": [
+      "leave",
+      "leave the meeting",
+      "leave the call",
+      "drop off",
+      "hop off",
+      "drop off the call"
+    ],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_30",
+    "spanish": "Perdón por ingresar tarde a la llamada",
+    "englishVariants": [
+      "sorry to jump in late",
+      "sorry for jumping in late",
+      "sorry I'm late",
+      "sorry for being late"
+    ],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_31",
+    "spanish": "Me ausento un segundo",
+    "englishVariants": [
+      "I'm stepping away for a second",
+      "I'm stepping away",
+      "I'll step away for a second",
+      "I'm stepping away for 5 minutes",
+      "I'm stepping away for five minutes"
+    ],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_32",
+    "spanish": "Salgo un momento al exterior",
+    "englishVariants": [
+      "I'm stepping out",
+      "I'll step out",
+      "I'm stepping out for a moment",
+      "I'll step out for a moment"
+    ],
+    "category": "call",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_33",
+    "spanish": "Entrar a una habitación / edificio / oficina",
+    "englishVariants": [
+      "go in",
+      "go into",
+      "enter",
+      "walk in",
+      "go into the office",
+      "walk into the office",
+      "enter the office"
+    ],
+    "category": "Movimiento",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_34",
+    "spanish": "Salir de una habitación / edificio / oficina",
+    "englishVariants": [
+      "go out",
+      "go out of",
+      "leave",
+      "walk out",
+      "leave the office",
+      "walk out of the office",
+      "go out of the office"
+    ],
+    "category": "Movimiento",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_35",
+    "spanish": "Estaré de guardia la próxima semana",
+    "englishVariants": [
+      "I'll be on call next week",
+      "I will be on call next week",
+      "I'll be on-call next week"
+    ],
+    "category": "Guardias",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_36",
+    "spanish": "Tengo asignado el turno de guardia la próxima semana",
+    "englishVariants": [
+      "I'm scheduled for on-call support next week",
+      "I am scheduled for on-call support next week",
+      "I'm scheduled for on call support next week"
+    ],
+    "category": "Guardias",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "chat_37",
+    "spanish": "Tengo el turno de guardia la semana que viene",
+    "englishVariants": [
+      "I have the on-call shift next week",
+      "I've got the on-call shift next week",
+      "I have the on call shift next week"
+    ],
+    "category": "Guardias",
+    "difficultyWeight": 1
   }
 ]

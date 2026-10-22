@@ -32,6 +32,11 @@ export const CHAT_CATEGORIES = [
   'Urgente',
   'Follow-up',
   'Greetings',
+  'call',
+  'Transporte',
+  'Software',
+  'Movimiento',
+  'Guardias',
 ] as const
 
 /** Normaliza para comparar respuestas (ver `answerText.ts`). */

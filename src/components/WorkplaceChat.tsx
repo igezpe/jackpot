@@ -129,7 +129,11 @@ const WorkplaceChat = ({ phrases, onResult, onOpenConfig }: WorkplaceChatProps) 
                   <span className="text-[0.62rem] font-bold tracking-[0.22em] text-night-800/55 uppercase">
                     Traducí al inglés
                   </span>
-                  <span className="font-display text-xl leading-snug font-bold text-night-900 sm:text-2xl">
+                  <span
+                    className={`font-display leading-snug font-bold text-night-900 ${
+                      combo.spanish.length > 42 ? 'text-base sm:text-lg' : 'text-xl sm:text-2xl'
+                    }`}
+                  >
                     {combo.spanish}
                   </span>
                 </span>
