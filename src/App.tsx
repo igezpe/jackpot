@@ -26,6 +26,10 @@ import OrdersRequestsJackpot from './components/OrdersRequestsJackpot'
 import { OrdersRequestsConfigModal } from './components/OrdersRequestsConfigModal'
 import { useOrdersRequests } from './hooks/useOrdersRequests'
 import { nextWeight as nextOrWeight } from './lib/ordersRequests'
+import LinkingWordsJackpot from './components/LinkingWordsJackpot'
+import { LinkingWordsConfigModal } from './components/LinkingWordsConfigModal'
+import { useLinkingWords } from './hooks/useLinkingWords'
+import { nextWeight as nextLinkingWeight } from './lib/linkingWords'
 import { loadStats, saveStats, type AchievementStats } from './lib/stats'
 
 /* -------------------------------------------------------------------------- */
@@ -104,6 +108,15 @@ export default function App() {
     resetStats: resetOrStats,
     resetToDefault: resetOrDefault,
   } = useOrdersRequests()
+  const {
+    items: linkingItems,
+    isCustom: linkingIsCustom,
+    storageAvailable: linkingStorageAvailable,
+    updateItems: updateLinkingItems,
+    replaceAll: replaceLinkingAll,
+    resetStats: resetLinkingStats,
+    resetToDefault: resetLinkingDefault,
+  } = useLinkingWords()
   const { combo, reels, spinning, spinToken, spin } = useSlotMachine(data)
 
   const [answer, setAnswer] = useState('')
@@ -116,6 +129,7 @@ export default function App() {
   const [phrasalConfigOpen, setPhrasalConfigOpen] = useState(false)
   const [vocabConfigOpen, setVocabConfigOpen] = useState(false)
   const [orConfigOpen, setOrConfigOpen] = useState(false)
+  const [linkingConfigOpen, setLinkingConfigOpen] = useState(false)
   const [stats, setStats] = useState<AchievementStats>(() => loadStats())
   const solved = stats.solved
   const misses = stats.misses
@@ -220,7 +234,7 @@ export default function App() {
           </div>
         </header>
 
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-4">
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-between gap-4 mb-4">
           <button
             type="button"
             onClick={() => setCurrentView('jackpot')}
@@ -262,6 +276,13 @@ export default function App() {
             className={currentView === 'orders' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
           >
             Orders &amp; Requests
+          </button>
+          <button
+            type="button"
+            onClick={() => setCurrentView('linking')}
+            className={currentView === 'linking' ? 'bg-gold-300 text-night-950 px-4 py-2 rounded-md hover:text-night-950 hover:bg-gold-200 transition' : 'text-slate-300 hover:text-gold-300 px-4 py-2 rounded-md transition'}
+          >
+            Linking Words
           </button>
         </div>
 
@@ -330,6 +351,21 @@ export default function App() {
               recordResult(correct)
             }}
             onOpenConfig={() => setOrConfigOpen(true)}
+          />
+        )}
+
+        {currentView === 'linking' && (
+          <LinkingWordsJackpot
+            items={linkingItems}
+            onResult={(id, correct) => {
+              updateLinkingItems((list) =>
+                list.map((p) =>
+                  p.id === id ? { ...p, difficultyWeight: nextLinkingWeight(p.difficultyWeight, correct) } : p,
+                ),
+              )
+              recordResult(correct)
+            }}
+            onOpenConfig={() => setLinkingConfigOpen(true)}
           />
         )}
 
@@ -518,6 +554,18 @@ export default function App() {
         onResetDefault={resetOrDefault}
         isCustom={orIsCustom}
         storageAvailable={orStorageAvailable}
+      />
+
+      <LinkingWordsConfigModal
+        open={linkingConfigOpen}
+        onClose={() => setLinkingConfigOpen(false)}
+        items={linkingItems}
+        onChange={updateLinkingItems}
+        onReplaceAll={replaceLinkingAll}
+        onResetStats={resetLinkingStats}
+        onResetDefault={resetLinkingDefault}
+        isCustom={linkingIsCustom}
+        storageAvailable={linkingStorageAvailable}
       />
     </div>
   )

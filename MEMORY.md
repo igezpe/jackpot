@@ -3,13 +3,14 @@
 Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo que ya no aporte.
 
 ## Estado actual
-- **6 pestañas**: Gramatical Jackpot, Conditionals Jackpot, Workplace Chat, Phrasal Verbs, Vocabulary, Orders & Requests.
+- **7 pestañas**: Gramatical Jackpot, Conditionals Jackpot, Workplace Chat, Phrasal Verbs, Vocabulary, Orders & Requests, Linking Words.
 - **Gramatical Jackpot** (antes «Jackpot Gramatical»): 4 rodillos (`Reel`). `npm run check` → 4536/4536.
 - **Conditionals Jackpot**: 5 rodillos encadenados (`useConditionalSlotMachine`), valida las 4 estructuras; modal de config con export/import JSON.
 - **Mazo de cartas** (Workplace Chat, Phrasal Verbs, Vocabulary, Orders & Requests): cada ítem tiene **una sola opción**, así que NO usan rodillos. Componente genérico `src/components/PlayingCard.tsx` (dorso rojo/negro, flip 3D con clic o Enter) sobre paño verde (`@utility felt`). Botón «Sacar otra carta» reparte boca abajo y **nunca repite la anterior**.
 - **Flujo por teclado** (6 secciones): respuesta **correcta** → foco a «Tirar»/«Sacar otra carta»; **incorrecta** → foco al input. Al repartir, el foco va a la carta; Enter la voltea y pasa el foco al input.
 - **Vocabulary con imágenes** (34 términos, incluye ropa/calzado/accesorios): la carta muestra una **imagen principal** y el español en pequeño. Órganos con SVG de Health Icons (CC0) en `public/images/vocabulary/`; el resto, emoji. Campos opcionales `image` (URL/ruta) y `emoji` en `VocabItem`, editables.
 - **Workplace Chat** (37 frases): se sumaron categorías Transporte, Software, Movimiento, Guardias y frases de on-call.
+- **Linking Words**: 3 rodillos animados (Idea A + Relación + Idea B) y **selector de conector con selección múltiple**: 1 correcto elegido **al azar** entre `validConnectors` + 3 distractores de **otras relaciones**. La oración de feedback usa `exampleFullSentence` si el correcto es el primero; si no, se genera. Pesos, contador y config (CRUD, import/export, Reset Stats). Clave `jackpot.linkingWords.v1`.
 - **Auto-merge de defaults**: si el `localStorage` guardado usa sólo ids por defecto, `loadVocabulary` / `loadWorkplaceChat` agregan los ítems nuevos del JSON sin tocar los existentes.
 - **Reported Speech**: removido de Gramatical Jackpot (commit `e73351e`). `src/lib/reportedSpeech.ts` queda como código muerto, pendiente de una sección aparte.
 - Auto-guardado con debounce (500 ms) vía `useReelsData`, `useConditionalsData`, `useWorkplaceChat`, `usePhrasalVerbs`, `useVocabulary`, `useOrdersRequests`.

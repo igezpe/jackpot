@@ -1,0 +1,46 @@
+[
+  {
+    "id": "lw_1",
+    "ideaA": "The setup is complete",
+    "ideaB": "we still need to run the tests",
+    "relationType": "contrast",
+    "relationLabel": "Contrast [ Sin embargo / Pero ]",
+    "validConnectors": ["however", "but", "though", "still"],
+    "exampleFullSentence": "The setup is complete; however, we still need to run the tests.",
+    "category": "Despliegues / Pruebas",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_2",
+    "ideaA": "I don't think we have access to the server",
+    "ideaB": "the password expired",
+    "relationType": "addition",
+    "relationLabel": "Addition [ Además / Encima ]",
+    "validConnectors": ["on top of that", "besides", "also", "in addition"],
+    "exampleFullSentence": "I don't think we have access to the server. On top of that, the password expired.",
+    "category": "Infraestructura",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_3",
+    "ideaA": "The database was locked",
+    "ideaB": "the transaction failed",
+    "relationType": "result",
+    "relationLabel": "Result / Cause [ Por eso / Así que ]",
+    "validConnectors": ["so", "that's why", "therefore", "as a result"],
+    "exampleFullSentence": "The database was locked, so the transaction failed.",
+    "category": "Base de datos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_4",
+    "ideaA": "Please let me know if you have questions",
+    "ideaB": "we can close the ticket",
+    "relationType": "condition",
+    "relationLabel": "Condition [ De lo contrario / Si no ]",
+    "validConnectors": ["otherwise", "or else"],
+    "exampleFullSentence": "Please let me know if you have questions; otherwise, we can close the ticket.",
+    "category": "Soporte / Tickets",
+    "difficultyWeight": 1
+  }
+]
