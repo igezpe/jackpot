@@ -10,12 +10,12 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 - **Flujo por teclado** (6 secciones): respuesta **correcta** → foco a «Tirar»/«Sacar otra carta»; **incorrecta** → foco al input. Al repartir, el foco va a la carta; Enter la voltea y pasa el foco al input.
 - **Vocabulary con imágenes** (34 términos, incluye ropa/calzado/accesorios): la carta muestra una **imagen principal** y el español en pequeño. Órganos con SVG de Health Icons (CC0) en `public/images/vocabulary/`; el resto, emoji. Campos opcionales `image` (URL/ruta) y `emoji` en `VocabItem`, editables.
 - **Workplace Chat** (37 frases): se sumaron categorías Transporte, Software, Movimiento, Guardias y frases de on-call.
-- **Linking Words**: 3 rodillos animados (Idea A + Relación + Idea B) y **selector de conector con selección múltiple**: 1 correcto elegido **al azar** entre `validConnectors` + 3 distractores de **otras relaciones**. La oración de feedback usa `exampleFullSentence` si el correcto es el primero; si no, se genera. Pesos, contador y config (CRUD, import/export, Reset Stats). Clave `jackpot.linkingWords.v1`.
+- **Linking Words** (10 ítems: contrast, concession, comparison, addition, result, condition, example, sequence, conclusion): 3 rodillos (Idea A + Relación + Idea B) y **selector múltiple**: 1 correcto **al azar** entre `validConnectors` + 3 distractores de **otras relaciones**. `buildFullSentence` usa `exampleFullSentence` si el correcto es el primero; si no, genera la oración con puntuación según el conector. Al cargar se **fusionan** los conectores nuevos por id. Pesos, contador y config (CRUD, import/export, Reset Stats). Clave `jackpot.linkingWords.v1`.
 - **Auto-merge de defaults**: si el `localStorage` guardado usa sólo ids por defecto, `loadVocabulary` / `loadWorkplaceChat` agregan los ítems nuevos del JSON sin tocar los existentes.
 - **Reported Speech**: removido de Gramatical Jackpot (commit `e73351e`). `src/lib/reportedSpeech.ts` queda como código muerto, pendiente de una sección aparte.
 - Auto-guardado con debounce (500 ms) vía `useReelsData`, `useConditionalsData`, `useWorkplaceChat`, `usePhrasalVerbs`, `useVocabulary`, `useOrdersRequests`.
 - Validación tolerante por variantes en las 4 secciones de cartas; normalización compartida en `src/lib/answerText.ts` (expande contracciones: `I'll` = `I will`).
-- Contador superior derecho (`solved / total`): lo alimenta `recordResult(correcto)` en `App.tsx`; lo usan las **6** secciones. **Persiste** en localStorage (`jackpot.stats.v1`).
+- Contador superior derecho (`solved / total`): lo alimenta `recordResult(correcto)` en `App.tsx`; lo usan las **7** secciones. **Persiste** en localStorage (`jackpot.stats.v1`).
 - **PWA**: `public/manifest.webmanifest` + `public/sw.js` + íconos en `public/icons/`. SW solo en `PROD`. Script `npm run build:web` (= `vite build`, evita el `tsc` roto).
 
 ## Decisiones (y porqué)

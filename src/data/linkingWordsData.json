@@ -5,7 +5,7 @@
     "ideaB": "we still need to run the tests",
     "relationType": "contrast",
     "relationLabel": "Contrast [ Sin embargo / Pero ]",
-    "validConnectors": ["however", "but", "though", "still"],
+    "validConnectors": ["however", "but", "though", "still", "nevertheless", "nonetheless", "yet", "even so", "on the other hand"],
     "exampleFullSentence": "The setup is complete; however, we still need to run the tests.",
     "category": "Despliegues / Pruebas",
     "difficultyWeight": 1
@@ -16,7 +16,7 @@
     "ideaB": "the password expired",
     "relationType": "addition",
     "relationLabel": "Addition [ Además / Encima ]",
-    "validConnectors": ["on top of that", "besides", "also", "in addition"],
+    "validConnectors": ["on top of that", "besides", "also", "in addition", "moreover", "furthermore", "what's more", "additionally", "plus"],
     "exampleFullSentence": "I don't think we have access to the server. On top of that, the password expired.",
     "category": "Infraestructura",
     "difficultyWeight": 1
@@ -27,7 +27,7 @@
     "ideaB": "the transaction failed",
     "relationType": "result",
     "relationLabel": "Result / Cause [ Por eso / Así que ]",
-    "validConnectors": ["so", "that's why", "therefore", "as a result"],
+    "validConnectors": ["so", "that's why", "therefore", "as a result", "consequently", "thus", "hence", "for that reason", "because of that"],
     "exampleFullSentence": "The database was locked, so the transaction failed.",
     "category": "Base de datos",
     "difficultyWeight": 1
@@ -38,9 +38,75 @@
     "ideaB": "we can close the ticket",
     "relationType": "condition",
     "relationLabel": "Condition [ De lo contrario / Si no ]",
-    "validConnectors": ["otherwise", "or else"],
+    "validConnectors": ["otherwise", "or else", "if not"],
     "exampleFullSentence": "Please let me know if you have questions; otherwise, we can close the ticket.",
     "category": "Soporte / Tickets",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_5",
+    "ideaA": "The API is well documented",
+    "ideaB": "it still returns inconsistent errors",
+    "relationType": "concession",
+    "relationLabel": "Concession [ Aunque / A pesar de ]",
+    "validConnectors": ["although", "even though", "though", "while"],
+    "exampleFullSentence": "Although the API is well documented, it still returns inconsistent errors.",
+    "category": "API / Backend",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_6",
+    "ideaA": "We need to reduce the response time",
+    "ideaB": "the dashboard takes ten seconds to load",
+    "relationType": "example",
+    "relationLabel": "Example [ Por ejemplo ]",
+    "validConnectors": ["for example", "for instance", "as an example"],
+    "exampleFullSentence": "We need to reduce the response time; for example, the dashboard takes ten seconds to load.",
+    "category": "Performance",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_7",
+    "ideaA": "We deploy to staging first",
+    "ideaB": "we run the regression tests",
+    "relationType": "sequence",
+    "relationLabel": "Sequence [ Después / Luego ]",
+    "validConnectors": ["then", "after that", "afterwards", "next"],
+    "exampleFullSentence": "We deploy to staging first; then we run the regression tests.",
+    "category": "Despliegues / CI",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_8",
+    "ideaA": "We fixed the latency, the errors and the deployment pipeline",
+    "ideaB": "the release is ready for production",
+    "relationType": "conclusion",
+    "relationLabel": "Conclusion [ En resumen / En conclusión ]",
+    "validConnectors": ["in short", "in conclusion", "to sum up", "overall"],
+    "exampleFullSentence": "We fixed the latency, the errors and the deployment pipeline; in short, the release is ready for production.",
+    "category": "Releases",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_9",
+    "ideaA": "You can restart the service",
+    "ideaB": "you have admin permissions",
+    "relationType": "condition",
+    "relationLabel": "Condition [ Siempre que / Si ]",
+    "validConnectors": ["provided that", "as long as", "so long as", "if"],
+    "exampleFullSentence": "You can restart the service provided that you have admin permissions.",
+    "category": "Infraestructura / Permisos",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "lw_10",
+    "ideaA": "The frontend is written in React",
+    "ideaB": "the backend uses Node.js",
+    "relationType": "comparison",
+    "relationLabel": "Comparison [ Mientras que / En cambio ]",
+    "validConnectors": ["whereas", "while", "on the other hand", "in contrast"],
+    "exampleFullSentence": "The frontend is written in React, whereas the backend uses Node.js.",
+    "category": "Stack / Arquitectura",
     "difficultyWeight": 1
   }
 ]

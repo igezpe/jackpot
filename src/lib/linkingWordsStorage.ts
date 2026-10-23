@@ -1,5 +1,6 @@
 import type { LinkingWordItem } from './linkingWords'
 import { DEFAULT_LINKING_WORDS } from './linkingWords'
+import { normalizeAnswerText } from './answerText'
 
 /** Clave de localStorage para Linking Words (contenido + pesos). */
 export const LINKING_WORDS_STORAGE_KEY = 'jackpot.linkingWords.v1'
@@ -29,20 +30,32 @@ export function loadLinkingWords(): LinkingWordItem[] | null {
     const raw = window.localStorage.getItem(LINKING_WORDS_STORAGE_KEY)
     if (!raw) return null
     const stored = sanitizeLinkingData(JSON.parse(raw) as unknown)
-    return stored ? withMissingDefaults(stored) : null
+    return stored ? withContentUpdates(stored) : null
   } catch {
     return null
   }
 }
 
-/** Agrega los ítems nuevos del JSON si el listado guardado usa solo ids por defecto. */
-function withMissingDefaults(items: LinkingWordItem[]): LinkingWordItem[] {
-  const defaultIds = new Set(DEFAULT_LINKING_WORDS.map((p) => p.id))
-  if (!items.every((p) => defaultIds.has(p.id))) return items
+/**
+ * Fusiona los conectores nuevos del JSON con los guardados (por id) y agrega
+ * los ítems que falten, siempre que el listado use sólo ids por defecto.
+ * Conserva pesos y ediciones del usuario.
+ */
+function withContentUpdates(items: LinkingWordItem[]): LinkingWordItem[] {
+  const byId = new Map(DEFAULT_LINKING_WORDS.map((p) => [p.id, p]))
+  if (!items.every((p) => byId.has(p.id))) return items
 
-  const present = new Set(items.map((p) => p.id))
+  const merged = items.map((item) => {
+    const base = byId.get(item.id)!
+    const seen = new Set(item.validConnectors.map((c) => normalizeAnswerText(c)))
+    const extra = base.validConnectors.filter((c) => !seen.has(normalizeAnswerText(c)))
+    if (extra.length === 0) return item
+    return { ...item, validConnectors: [...item.validConnectors, ...extra] }
+  })
+
+  const present = new Set(merged.map((p) => p.id))
   const missing = DEFAULT_LINKING_WORDS.filter((p) => !present.has(p.id))
-  return missing.length > 0 ? [...items, ...missing] : items
+  return missing.length > 0 ? [...merged, ...missing] : merged
 }
 
 export function saveLinkingWords(items: LinkingWordItem[]): boolean {

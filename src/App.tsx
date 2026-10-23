@@ -194,7 +194,6 @@ export default function App() {
     return `Ej.: ${combo.subject} ... ${verb} ...`
   }, [combo])
 
-  const tenseInfo = TENSE_INFO[combo.moment.tense]
   const total = solved + misses
   const example = useMemo(() => buildExample(combo), [combo])
 
@@ -205,15 +204,11 @@ export default function App() {
         <header className="flex flex-wrap items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="flex items-center gap-2 text-xs font-bold tracking-[0.3em] text-gold-400/80 uppercase">
-              <span className="inline-block size-1.5 rounded-full bg-gold-400" /> English Jackpot
+              <span className="inline-block size-1.5 rounded-full bg-gold-400" /> Play · Learn · Practice
             </p>
-            <h1 className="font-display text-gold-gradient mt-1 text-3xl leading-none font-extrabold sm:text-4xl">
-              SLOT MACHINE
+            <h1 className="font-display text-gold-gradient mt-1 text-3xl leading-tight font-extrabold text-balance sm:text-4xl">
+              THE IGNATIUS ENGLISH TRAINING CASINO
             </h1>
-            <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-400">
-              Tira los rodillos, construye la oración correcta en inglés y demuestra el{' '}
-              <span className="text-gold-300">{tenseInfo?.name ?? 'tiempo verbal'}</span>.
-            </p>
           </div>
 
           <div className="flex items-center gap-2">

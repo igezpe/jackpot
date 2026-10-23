@@ -1,7 +1,7 @@
 {
-  "name": "English Jackpot",
-  "short_name": "Jackpot",
-  "description": "Practicá inglés con tragamonedas: gramática, condicionales, workplace chat, phrasal verbs y vocabulario.",
+  "name": "The Ignatius English Training Casino",
+  "short_name": "Ignatius Casino",
+  "description": "Practicá inglés con rodillos, cartas y conectores: gramática, condicionales, vocabulario y más.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

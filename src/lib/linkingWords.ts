@@ -32,6 +32,8 @@ export const DEFAULT_LINKING_WORDS: LinkingWordItem[] =
 /** Tipos de relación sugeridos (el usuario puede escribir otros). */
 export const RELATION_TYPES = [
   'contrast',
+  'concession',
+  'comparison',
   'addition',
   'result',
   'condition',
@@ -71,7 +73,25 @@ function shuffle<T>(values: T[]): T[] {
   return copy
 }
 
-const COORDINATING_CONNECTORS = new Set(['but', 'so', 'and', 'or', 'yet', 'for', 'nor', 'or else'])
+const COORDINATING_CONNECTORS = new Set([
+  'but',
+  'so',
+  'and',
+  'or',
+  'yet',
+  'for',
+  'nor',
+  'or else',
+  'then',
+])
+const SUBORDINATING_CONNECTORS = new Set([
+  'if',
+  'unless',
+  'provided that',
+  'as long as',
+  'so long as',
+  'in case',
+])
 const NO_COMMA_AFTER = new Set([
   'that is why',
   'this is why',
@@ -81,6 +101,9 @@ const NO_COMMA_AFTER = new Set([
   'as',
   'although',
   'though',
+  'even though',
+  'while',
+  'whereas',
 ])
 
 function stripEnd(text: string): string {
@@ -104,6 +127,8 @@ export function buildFullSentence(item: LinkingWordItem, connector: string): str
   let sentence: string
   if (COORDINATING_CONNECTORS.has(norm)) {
     sentence = `${a}, ${lower} ${b}.`
+  } else if (SUBORDINATING_CONNECTORS.has(norm)) {
+    sentence = `${a} ${lower} ${b}.`
   } else if (NO_COMMA_AFTER.has(norm)) {
     const capitalized = connector.charAt(0).toUpperCase() + connector.slice(1)
     sentence = `${a}. ${capitalized} ${b}.`

@@ -92,6 +92,34 @@ const LinkingWordsJackpot = ({ items, onResult, onOpenConfig }: LinkingWordsJack
     [spinning, selected, combo, round.correct, onResult],
   )
 
+  // Atajos A/B/C/D para elegir una opción sin mouse.
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.ctrlKey || event.metaKey || event.altKey) return
+      const target = event.target as HTMLElement | null
+      if (
+        target &&
+        (target.tagName === 'INPUT' ||
+          target.tagName === 'TEXTAREA' ||
+          target.tagName === 'SELECT' ||
+          target.isContentEditable)
+      ) {
+        return
+      }
+      if (target?.closest('[role="dialog"]') || document.querySelector('[aria-modal="true"]')) return
+      if (spinning || selected !== null) return
+
+      const index = ['a', 'b', 'c', 'd'].indexOf(event.key.toLowerCase())
+      if (index === -1) return
+      const option = round.options[index]
+      if (!option) return
+      event.preventDefault()
+      choose(option)
+    }
+    document.addEventListener('keydown', onKey)
+    return () => document.removeEventListener('keydown', onKey)
+  }, [choose, round.options, spinning, selected])
+
   const next = pending ?? combo
   const ideaAItems = items.map((p) => p.ideaA)
   const ideaBItems = items.map((p) => p.ideaB)
@@ -195,7 +223,7 @@ const LinkingWordsJackpot = ({ items, onResult, onOpenConfig }: LinkingWordsJack
           <p className="text-[0.65rem] font-bold tracking-[0.18em] text-slate-400 uppercase">
             Conector
           </p>
-          <p className="text-xs text-slate-500">Elegí la opción correcta</p>
+          <p className="text-xs text-slate-500">Elegí con clic o las teclas A–D</p>
         </div>
 
         {spinning ? (
@@ -226,9 +254,13 @@ const LinkingWordsJackpot = ({ items, onResult, onOpenConfig }: LinkingWordsJack
                   onClick={() => choose(option)}
                   disabled={spinning || selected !== null}
                   aria-pressed={isChosen}
-                  className={`flex items-center justify-between gap-2 rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${tone}`}
+                  aria-keyshortcuts={String.fromCharCode(97 + index)}
+                  className={`flex items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm font-semibold transition disabled:cursor-default ${tone}`}
                 >
-                  <span className="font-mono">{option}</span>
+                  <span className="grid size-6 shrink-0 place-items-center rounded-md border border-white/20 bg-white/10 font-mono text-[0.7rem] font-bold uppercase">
+                    {String.fromCharCode(97 + index)}
+                  </span>
+                  <span className="flex-1 font-mono">{option}</span>
                   {answered && isCorrectOption && <CheckIcon className="size-4 shrink-0" />}
                   {answered && isChosen && !isCorrectOption && (
                     <AlertIcon className="size-4 shrink-0" />
