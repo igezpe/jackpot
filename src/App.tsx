@@ -209,6 +209,9 @@ export default function App() {
             <h1 className="font-display text-gold-gradient mt-1 text-3xl leading-tight font-extrabold text-balance sm:text-4xl">
               THE IGNATIUS ENGLISH TRAINING CASINO
             </h1>
+            <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-slate-400 italic">
+              A veces gana, a veces pierde (como todo jugador)
+            </p>
           </div>
 
           <div className="flex items-center gap-2">
@@ -229,7 +232,7 @@ export default function App() {
           </div>
         </header>
 
-        <div className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-between gap-4 mb-4">
+        <div className="mt-1.5 flex flex-col sm:flex-row sm:flex-wrap items-center justify-between gap-4 mb-4">
           <button
             type="button"
             onClick={() => setCurrentView('jackpot')}

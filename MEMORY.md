@@ -19,7 +19,7 @@ Memoria del proyecto entre sesiones. Máximo ~50 líneas: resume o elimina lo qu
 - **PWA**: `public/manifest.webmanifest` + `public/sw.js` + íconos en `public/icons/`. SW solo en `PROD`. Script `npm run build:web` (= `vite build`, evita el `tsc` roto).
 
 ## Decisiones (y porqué)
-- Datos de usuario en `localStorage` con **prioridad sobre el JSON**; claves `jackpot.<seccion>.v1`. "Restablecer" las borra.
+- Datos de usuario en `localStorage` con **prioridad sobre el JSON**; claves `jackpot.<seccion>.v1` (Orders & Requests usa `v2` tras reemplazar el dataset). "Restablecer" las borra.
 - `Reel` se mantiene **solo** para las secciones que combinan opciones independientes (Gramatical y Conditionals). No tocar su animación.
 - Cartas: la info que antes era el 2.º rodillo (categoría/contexto/tipo) vive **dentro de la cara** de la carta.
 - Vocabulary: la **imagen es la pista principal** y el español va pequeño. `image` manda sobre `emoji`; si la imagen falla, cae al emoji.

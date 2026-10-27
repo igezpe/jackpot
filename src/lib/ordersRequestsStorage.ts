@@ -2,7 +2,7 @@ import type { OrderRequestItem } from './ordersRequests'
 import { DEFAULT_ORDERS_REQUESTS } from './ordersRequests'
 
 /** Clave de localStorage para Orders & Requests (contenido + pesos). */
-export const ORDERS_REQUESTS_STORAGE_KEY = 'jackpot.ordersRequests.v1'
+export const ORDERS_REQUESTS_STORAGE_KEY = 'jackpot.ordersRequests.v2'
 
 export const DEFAULT_OR_STORE: OrderRequestItem[] = DEFAULT_ORDERS_REQUESTS
 
@@ -28,10 +28,21 @@ export function loadOrdersRequests(): OrderRequestItem[] | null {
   try {
     const raw = window.localStorage.getItem(ORDERS_REQUESTS_STORAGE_KEY)
     if (!raw) return null
-    return sanitizeOrdersData(JSON.parse(raw) as unknown)
+    const stored = sanitizeOrdersData(JSON.parse(raw) as unknown)
+    return stored ? withMissingDefaults(stored) : null
   } catch {
     return null
   }
+}
+
+/** Agrega los ítems nuevos del JSON si el listado guardado usa solo ids por defecto. */
+function withMissingDefaults(items: OrderRequestItem[]): OrderRequestItem[] {
+  const defaultIds = new Set(DEFAULT_ORDERS_REQUESTS.map((p) => p.id))
+  if (!items.every((p) => defaultIds.has(p.id))) return items
+
+  const present = new Set(items.map((p) => p.id))
+  const missing = DEFAULT_ORDERS_REQUESTS.filter((p) => !present.has(p.id))
+  return missing.length > 0 ? [...items, ...missing] : items
 }
 
 export function saveOrdersRequests(items: OrderRequestItem[]): boolean {

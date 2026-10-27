@@ -1,28 +1,6 @@
 [
   {
     "id": "or_1",
-    "directSentence": "Send me the report before lunch",
-    "introContext": "John told me...",
-    "expectedVariants": [
-      "John told me to send him the report before lunch",
-      "to send him the report before lunch"
-    ],
-    "category": "Order [+]",
-    "difficultyWeight": 1
-  },
-  {
-    "id": "or_2",
-    "directSentence": "Please don't change the file",
-    "introContext": "John asked me...",
-    "expectedVariants": [
-      "John asked me not to change the file",
-      "not to change the file"
-    ],
-    "category": "Request [-]",
-    "difficultyWeight": 1
-  },
-  {
-    "id": "or_3",
     "directSentence": "Call the client this afternoon",
     "introContext": "John told me...",
     "expectedVariants": [
@@ -33,18 +11,7 @@
     "difficultyWeight": 1
   },
   {
-    "id": "or_4",
-    "directSentence": "Don't mention the problem during the first part of the meeting",
-    "introContext": "John told me...",
-    "expectedVariants": [
-      "John told me not to mention the problem during the first part of the meeting",
-      "not to mention the problem during the first part of the meeting"
-    ],
-    "category": "Order [-]",
-    "difficultyWeight": 1
-  },
-  {
-    "id": "or_5",
+    "id": "or_2",
     "directSentence": "Please send me the latest version",
     "introContext": "John asked me...",
     "expectedVariants": [
@@ -55,25 +22,148 @@
     "difficultyWeight": 1
   },
   {
-    "id": "or_6",
-    "directSentence": "Don't restart the server",
+    "id": "or_3",
+    "directSentence": "Send the report generated yesterday",
     "introContext": "John told me...",
     "expectedVariants": [
-      "John told me not to restart the server",
-      "not to restart the server"
+      "John told me to send the report generated the day before",
+      "John told me to send the report generated the previous day",
+      "to send the report generated the day before",
+      "to send the report generated the previous day"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_4",
+    "directSentence": "Call the client tomorrow",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to call the client the following day",
+      "John told me to call the client the next day",
+      "to call the client the following day",
+      "to call the client the next day"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_5",
+    "directSentence": "Send the files today",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to send the files that day",
+      "John told me to send the files on that day",
+      "to send the files that day",
+      "to send the files on that day"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_6",
+    "directSentence": "Finish the draft tonight",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to finish the draft that night",
+      "to finish the draft that night"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_7",
+    "directSentence": "Update the documentation now",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to update the documentation then",
+      "John told me to update the documentation at that moment",
+      "to update the documentation then",
+      "to update the documentation at that moment"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_8",
+    "directSentence": "Send the invoice next week",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to send the invoice the following week",
+      "John told me to send the invoice the week after",
+      "to send the invoice the following week",
+      "to send the invoice the week after"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_9",
+    "directSentence": "Meet me here tomorrow",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me to meet him there the following day",
+      "John told me to meet him there the next day",
+      "to meet him there the following day",
+      "to meet him there the next day"
+    ],
+    "category": "Order [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_10",
+    "directSentence": "Please send me these files next week",
+    "introContext": "John asked me...",
+    "expectedVariants": [
+      "John asked me to send him those files the following week",
+      "John asked me to send him those files the week after",
+      "to send him those files the following week",
+      "to send him those files the week after"
+    ],
+    "category": "Request [+]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_11",
+    "directSentence": "Don't call the client because I talked with him yesterday",
+    "introContext": "John told me...",
+    "expectedVariants": [
+      "John told me not to call the client because he had talked with him the day before",
+      "John told me not to call the client because he had talked with him the previous day",
+      "John told me not to call the client because he had talked to him the day before",
+      "John told me not to call the client because he had talked to him the previous day",
+      "John told me not to call the client because he had spoken with him the day before",
+      "John told me not to call the client because he had spoken with him the previous day",
+      "John told me not to call the client because he had spoken to him the day before",
+      "John told me not to call the client because he had spoken to him the previous day"
     ],
     "category": "Order [-]",
     "difficultyWeight": 1
   },
   {
-    "id": "or_7",
-    "directSentence": "Ask James to join the call",
+    "id": "or_12",
+    "directSentence": "Don't mention this to the team tomorrow",
     "introContext": "John told me...",
     "expectedVariants": [
-      "John told me to ask James to join the call",
-      "to ask James to join the call"
+      "John told me not to mention that to the team the following day",
+      "John told me not to mention that to the team the next day",
+      "not to mention that to the team the following day",
+      "not to mention that to the team the next day"
     ],
-    "category": "Order [+]",
+    "category": "Order [-]",
+    "difficultyWeight": 1
+  },
+  {
+    "id": "or_13",
+    "directSentence": "Please don't send the report tomorrow",
+    "introContext": "John asked me...",
+    "expectedVariants": [
+      "John asked me not to send the report the following day",
+      "John asked me not to send the report the next day",
+      "not to send the report the following day",
+      "not to send the report the next day"
+    ],
+    "category": "Request [-]",
     "difficultyWeight": 1
   }
 ]
