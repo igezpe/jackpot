@@ -207,7 +207,7 @@ export default function App() {
               <span className="inline-block size-1.5 rounded-full bg-gold-400" /> Play · Learn · Practice
             </p>
             <h1 className="font-display text-gold-gradient mt-1 text-3xl leading-tight font-extrabold text-balance sm:text-4xl">
-              THE IGNATIUS ENGLISH TRAINING CASINO
+              THE IGNATIUS ENGLISH PRACTICE CASINO
             </h1>
             <p className="mt-1.5 max-w-xl text-sm leading-relaxed text-slate-400 italic">
               A veces gana, a veces pierde (como todo jugador)
